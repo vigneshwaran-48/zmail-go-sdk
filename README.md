@@ -79,12 +79,14 @@ All URIs are relative to *https://mail.zoho.com/api*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AccountsAPI* | [**GetAccountDetails**](docs/AccountsAPI.md#getaccountdetails) | **Get** /accounts/{accountId} | Get Specific Account Details
 *AccountsAPI* | [**Getmailaccounts**](docs/AccountsAPI.md#getmailaccounts) | **Get** /accounts | Get all accounts
 
 
 ## Documentation For Models
 
  - [Account](docs/Account.md)
+ - [AccountResponse](docs/AccountResponse.md)
  - [AccountsResponse](docs/AccountsResponse.md)
  - [Address](docs/Address.md)
  - [EmailAddress](docs/EmailAddress.md)

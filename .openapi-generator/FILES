@@ -6,6 +6,7 @@ api_accounts.go
 client.go
 configuration.go
 docs/Account.md
+docs/AccountResponse.md
 docs/AccountsAPI.md
 docs/AccountsResponse.md
 docs/Address.md
@@ -16,6 +17,7 @@ docs/Status.md
 docs/VacationResponse.md
 git_push.sh
 model_account.go
+model_account_response.go
 model_accounts_response.go
 model_address.go
 model_email_address.go
@@ -24,5 +26,4 @@ model_send_mail_details.go
 model_status.go
 model_vacation_response.go
 response.go
-test/api_accounts_test.go
 utils.go

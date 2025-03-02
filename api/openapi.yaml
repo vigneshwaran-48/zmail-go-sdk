@@ -59,6 +59,33 @@ paths:
       summary: Get all accounts
       tags:
       - accounts
+  /accounts/{accountId}:
+    get:
+      description: Retrieve details of a specific Zoho Mail account.
+      operationId: getAccountDetails
+      parameters:
+      - description: Unique identifier of the account.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+          description: Successful response with account details.
+      security:
+      - zohomail_auth:
+        - ZohoMail.accounts.ALL
+        - ZohoMail.accounts.READ
+      summary: Get Specific Account Details
+      tags:
+      - accounts
 components:
   schemas:
     AccountsResponse:
@@ -198,6 +225,80 @@ components:
           items:
             $ref: '#/components/schemas/Account'
           type: array
+      type: object
+    AccountResponse:
+      example:
+        data:
+          accountDisplayName: Rebecca
+          sendMailDetails:
+          - sendMailId: sendMailId
+            displayName: displayName
+            serverName: serverName
+            fromAddress: fromAddress
+            serverPort: 0
+            userName: userName
+            connectionType: connectionType
+            status: true
+          - sendMailId: sendMailId
+            displayName: displayName
+            serverName: serverName
+            fromAddress: fromAddress
+            serverPort: 0
+            userName: userName
+            connectionType: connectionType
+            status: true
+          address:
+            country: country
+            streetAddr: streetAddr
+            city: city
+            postalCode: postalCode
+            state: state
+          accountName: bizdemo
+          popAccessEnabled: true
+          imapAccessEnabled: true
+          type: ZOHO_ACCOUNT
+          URI: https://mail.zoho.com/api/accounts/2560636000000008002
+          mailForward:
+          - mailForwardTo: mailForwardTo
+            type: type
+            status: status
+          - mailForwardTo: mailForwardTo
+            type: type
+            status: status
+          accountId: "2560636000000008002"
+          incomingUserName: rebecca@zylker.com
+          emailAddress:
+          - isAlias: true
+            isPrimary: true
+            mailId: mailId
+            isConfirmed: true
+          - isAlias: true
+            isPrimary: true
+            mailId: mailId
+            isConfirmed: true
+          mailboxStatus: enabled
+          vacationResponse:
+          - fromDate: 2000-01-23
+            accountId: accountId
+            subject: subject
+            toDate: 2000-01-23
+            content: content
+            vacationId: vacationId
+          - fromDate: 2000-01-23
+            accountId: accountId
+            subject: subject
+            toDate: 2000-01-23
+            content: content
+            vacationId: vacationId
+          smtpStatus: true
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/Account'
       type: object
     Status:
       example:

@@ -56,7 +56,32 @@ paths:
         - zohomail_auth:
             - ZohoMail.accounts.ALL
             - ZohoMail.accounts.READ
-   
+  /accounts/{accountId}:
+    get:
+      tags:
+        - accounts
+      summary: Get Specific Account Details
+      description: Retrieve details of a specific Zoho Mail account.
+      operationId: getAccountDetails
+      parameters:
+        - name: accountId
+          in: path
+          description: Unique identifier of the account.
+          required: true
+          schema:
+            type: string
+      security:
+        - zohomail_auth:
+            - ZohoMail.accounts.ALL
+            - ZohoMail.accounts.READ
+      responses:
+        "200":
+          description: Successful response with account details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+                
 components:
   schemas:
     AccountsResponse:
@@ -68,6 +93,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Account"
+            
+    AccountResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/Account'
 
     Status:
       type: object
