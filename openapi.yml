@@ -1,0 +1,218 @@
+openapi: 3.0.3
+info:
+  title: Zoho Mail API
+  description: >-
+    This is a Zoho Mail API OpenAPI 3.0 specification
+
+  contact:
+    email: vigneshwaran4817@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about the Zoho Mail REST API
+  url: https://www.zoho.com/mail/help/api/overview.html
+servers:
+  - url: https://mail.zoho.com/api
+tags:
+  - name: accounts
+    description: The User Mail Account APIs help you to get and update information about the mail accounts and the related configurations and settings of the users in the organization. The following are part of Mail Accounts API
+    externalDocs:
+      description: Find out more
+      url: https://www.zoho.com/mail/help/api/account-api.html
+  - name: folders
+    description: The Folder APIs help you to get and update information about the Folder details of a particular user account.
+    externalDocs:
+      description: Find out more
+      url: https://www.zoho.com/mail/help/api/folders-api.html
+  - name: labels
+    description: The Label APIs help you to get and update information about the label details of a particular user account.
+    externalDocs:
+      description: Find out more
+      url: https://www.zoho.com/mail/help/api/labels-api.html
+paths:
+  /accounts:
+    get:
+      tags:
+        - accounts
+      summary: Get all accounts
+      description: This API is used to retrieve all the accounts details of the authenticated user.
+      operationId: getmailaccounts
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountsResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+      security:
+        - zohomail_auth:
+            - ZohoMail.accounts.ALL
+            - ZohoMail.accounts.READ
+   
+components:
+  schemas:
+    AccountsResponse:
+      type: object
+      properties:
+        status:
+          $ref: "#/components/schemas/Status"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Account"
+
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        description:
+          type: string
+          example: "success"
+
+    Account:
+      type: object
+      properties:
+        accountId:
+          type: string
+          example: "2560636000000008002"
+        accountDisplayName:
+          type: string
+          example: "Rebecca"
+        incomingUserName:
+          type: string
+          example: "rebecca@zylker.com"
+        accountName:
+          type: string
+          example: "bizdemo"
+        type:
+          type: string
+          example: "ZOHO_ACCOUNT"
+        mailboxStatus:
+          type: string
+          example: "enabled"
+        imapAccessEnabled:
+          type: boolean
+        popAccessEnabled:
+          type: boolean
+        smtpStatus:
+          type: boolean
+        mailForward:
+          type: array
+          items:
+            $ref: "#/components/schemas/MailForward"
+        emailAddress:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmailAddress"
+        vacationResponse:
+          type: array
+          items:
+            $ref: "#/components/schemas/VacationResponse"
+        sendMailDetails:
+          type: array
+          items:
+            $ref: "#/components/schemas/SendMailDetails"
+        address:
+          $ref: "#/components/schemas/Address"
+        URI:
+          type: string
+          format: uri
+          example: "https://mail.zoho.com/api/accounts/2560636000000008002"
+
+    MailForward:
+      type: object
+      properties:
+        mailForwardTo:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+
+    EmailAddress:
+      type: object
+      properties:
+        isAlias:
+          type: boolean
+        isPrimary:
+          type: boolean
+        mailId:
+          type: string
+        isConfirmed:
+          type: boolean
+
+    VacationResponse:
+      type: object
+      properties:
+        subject:
+          type: string
+        fromDate:
+          type: string
+          format: date
+        toDate:
+          type: string
+          format: date
+        content:
+          type: string
+        accountId:
+          type: string
+        vacationId:
+          type: string
+
+    SendMailDetails:
+      type: object
+      properties:
+        sendMailId:
+          type: string
+        displayName:
+          type: string
+        serverName:
+          type: string
+        serverPort:
+          type: integer
+        userName:
+          type: string
+        connectionType:
+          type: string
+        fromAddress:
+          type: string
+        status:
+          type: boolean
+
+    Address:
+      type: object
+      properties:
+        country:
+          type: string
+        streetAddr:
+          type: string
+        city:
+          type: string
+        postalCode:
+          type: string
+        state:
+          type: string
+
+  securitySchemes:
+    zohomail_auth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://accounts.zoho.com/oauth/v2/auth
+          tokenUrl: https://accounts.zoho.com/oauth/v2/token
+          scopes:
+            ZohoMail.accounts.ALL: Full access to accounts.
+            ZohoMail.accounts.READ: READ access to accounts.
+            ZohoMail.folders.ALL: Full access to folders.
+            ZohoMail.folders.CREATE: Create a folder.
+  
