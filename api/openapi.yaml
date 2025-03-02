@@ -1,0 +1,437 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: vigneshwaran4817@gmail.com
+  description: This is a Zoho Mail API OpenAPI 3.0 specification
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Zoho Mail API
+  version: 1.0.0
+externalDocs:
+  description: Find out more about the Zoho Mail REST API
+  url: https://www.zoho.com/mail/help/api/overview.html
+servers:
+- url: https://mail.zoho.com/api
+tags:
+- description: The User Mail Account APIs help you to get and update information about
+    the mail accounts and the related configurations and settings of the users in
+    the organization. The following are part of Mail Accounts API
+  externalDocs:
+    description: Find out more
+    url: https://www.zoho.com/mail/help/api/account-api.html
+  name: accounts
+- description: The Folder APIs help you to get and update information about the Folder
+    details of a particular user account.
+  externalDocs:
+    description: Find out more
+    url: https://www.zoho.com/mail/help/api/folders-api.html
+  name: folders
+- description: The Label APIs help you to get and update information about the label
+    details of a particular user account.
+  externalDocs:
+    description: Find out more
+    url: https://www.zoho.com/mail/help/api/labels-api.html
+  name: labels
+paths:
+  /accounts:
+    get:
+      description: This API is used to retrieve all the accounts details of the authenticated
+        user.
+      operationId: getmailaccounts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountsResponse'
+          description: Successful operation
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      security:
+      - zohomail_auth:
+        - ZohoMail.accounts.ALL
+        - ZohoMail.accounts.READ
+      summary: Get all accounts
+      tags:
+      - accounts
+components:
+  schemas:
+    AccountsResponse:
+      example:
+        data:
+        - accountDisplayName: Rebecca
+          sendMailDetails:
+          - sendMailId: sendMailId
+            displayName: displayName
+            serverName: serverName
+            fromAddress: fromAddress
+            serverPort: 0
+            userName: userName
+            connectionType: connectionType
+            status: true
+          - sendMailId: sendMailId
+            displayName: displayName
+            serverName: serverName
+            fromAddress: fromAddress
+            serverPort: 0
+            userName: userName
+            connectionType: connectionType
+            status: true
+          address:
+            country: country
+            streetAddr: streetAddr
+            city: city
+            postalCode: postalCode
+            state: state
+          accountName: bizdemo
+          popAccessEnabled: true
+          imapAccessEnabled: true
+          type: ZOHO_ACCOUNT
+          URI: https://mail.zoho.com/api/accounts/2560636000000008002
+          mailForward:
+          - mailForwardTo: mailForwardTo
+            type: type
+            status: status
+          - mailForwardTo: mailForwardTo
+            type: type
+            status: status
+          accountId: "2560636000000008002"
+          incomingUserName: rebecca@zylker.com
+          emailAddress:
+          - isAlias: true
+            isPrimary: true
+            mailId: mailId
+            isConfirmed: true
+          - isAlias: true
+            isPrimary: true
+            mailId: mailId
+            isConfirmed: true
+          mailboxStatus: enabled
+          vacationResponse:
+          - fromDate: 2000-01-23
+            accountId: accountId
+            subject: subject
+            toDate: 2000-01-23
+            content: content
+            vacationId: vacationId
+          - fromDate: 2000-01-23
+            accountId: accountId
+            subject: subject
+            toDate: 2000-01-23
+            content: content
+            vacationId: vacationId
+          smtpStatus: true
+        - accountDisplayName: Rebecca
+          sendMailDetails:
+          - sendMailId: sendMailId
+            displayName: displayName
+            serverName: serverName
+            fromAddress: fromAddress
+            serverPort: 0
+            userName: userName
+            connectionType: connectionType
+            status: true
+          - sendMailId: sendMailId
+            displayName: displayName
+            serverName: serverName
+            fromAddress: fromAddress
+            serverPort: 0
+            userName: userName
+            connectionType: connectionType
+            status: true
+          address:
+            country: country
+            streetAddr: streetAddr
+            city: city
+            postalCode: postalCode
+            state: state
+          accountName: bizdemo
+          popAccessEnabled: true
+          imapAccessEnabled: true
+          type: ZOHO_ACCOUNT
+          URI: https://mail.zoho.com/api/accounts/2560636000000008002
+          mailForward:
+          - mailForwardTo: mailForwardTo
+            type: type
+            status: status
+          - mailForwardTo: mailForwardTo
+            type: type
+            status: status
+          accountId: "2560636000000008002"
+          incomingUserName: rebecca@zylker.com
+          emailAddress:
+          - isAlias: true
+            isPrimary: true
+            mailId: mailId
+            isConfirmed: true
+          - isAlias: true
+            isPrimary: true
+            mailId: mailId
+            isConfirmed: true
+          mailboxStatus: enabled
+          vacationResponse:
+          - fromDate: 2000-01-23
+            accountId: accountId
+            subject: subject
+            toDate: 2000-01-23
+            content: content
+            vacationId: vacationId
+          - fromDate: 2000-01-23
+            accountId: accountId
+            subject: subject
+            toDate: 2000-01-23
+            content: content
+            vacationId: vacationId
+          smtpStatus: true
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          items:
+            $ref: '#/components/schemas/Account'
+          type: array
+      type: object
+    Status:
+      example:
+        code: 200
+        description: success
+      properties:
+        code:
+          example: 200
+          type: integer
+        description:
+          example: success
+          type: string
+      type: object
+    Account:
+      example:
+        accountDisplayName: Rebecca
+        sendMailDetails:
+        - sendMailId: sendMailId
+          displayName: displayName
+          serverName: serverName
+          fromAddress: fromAddress
+          serverPort: 0
+          userName: userName
+          connectionType: connectionType
+          status: true
+        - sendMailId: sendMailId
+          displayName: displayName
+          serverName: serverName
+          fromAddress: fromAddress
+          serverPort: 0
+          userName: userName
+          connectionType: connectionType
+          status: true
+        address:
+          country: country
+          streetAddr: streetAddr
+          city: city
+          postalCode: postalCode
+          state: state
+        accountName: bizdemo
+        popAccessEnabled: true
+        imapAccessEnabled: true
+        type: ZOHO_ACCOUNT
+        URI: https://mail.zoho.com/api/accounts/2560636000000008002
+        mailForward:
+        - mailForwardTo: mailForwardTo
+          type: type
+          status: status
+        - mailForwardTo: mailForwardTo
+          type: type
+          status: status
+        accountId: "2560636000000008002"
+        incomingUserName: rebecca@zylker.com
+        emailAddress:
+        - isAlias: true
+          isPrimary: true
+          mailId: mailId
+          isConfirmed: true
+        - isAlias: true
+          isPrimary: true
+          mailId: mailId
+          isConfirmed: true
+        mailboxStatus: enabled
+        vacationResponse:
+        - fromDate: 2000-01-23
+          accountId: accountId
+          subject: subject
+          toDate: 2000-01-23
+          content: content
+          vacationId: vacationId
+        - fromDate: 2000-01-23
+          accountId: accountId
+          subject: subject
+          toDate: 2000-01-23
+          content: content
+          vacationId: vacationId
+        smtpStatus: true
+      properties:
+        accountId:
+          example: "2560636000000008002"
+          type: string
+        accountDisplayName:
+          example: Rebecca
+          type: string
+        incomingUserName:
+          example: rebecca@zylker.com
+          type: string
+        accountName:
+          example: bizdemo
+          type: string
+        type:
+          example: ZOHO_ACCOUNT
+          type: string
+        mailboxStatus:
+          example: enabled
+          type: string
+        imapAccessEnabled:
+          type: boolean
+        popAccessEnabled:
+          type: boolean
+        smtpStatus:
+          type: boolean
+        mailForward:
+          items:
+            $ref: '#/components/schemas/MailForward'
+          type: array
+        emailAddress:
+          items:
+            $ref: '#/components/schemas/EmailAddress'
+          type: array
+        vacationResponse:
+          items:
+            $ref: '#/components/schemas/VacationResponse'
+          type: array
+        sendMailDetails:
+          items:
+            $ref: '#/components/schemas/SendMailDetails'
+          type: array
+        address:
+          $ref: '#/components/schemas/Address'
+        URI:
+          example: https://mail.zoho.com/api/accounts/2560636000000008002
+          format: uri
+          type: string
+      type: object
+    MailForward:
+      example:
+        mailForwardTo: mailForwardTo
+        type: type
+        status: status
+      properties:
+        mailForwardTo:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+      type: object
+    EmailAddress:
+      example:
+        isAlias: true
+        isPrimary: true
+        mailId: mailId
+        isConfirmed: true
+      properties:
+        isAlias:
+          type: boolean
+        isPrimary:
+          type: boolean
+        mailId:
+          type: string
+        isConfirmed:
+          type: boolean
+      type: object
+    VacationResponse:
+      example:
+        fromDate: 2000-01-23
+        accountId: accountId
+        subject: subject
+        toDate: 2000-01-23
+        content: content
+        vacationId: vacationId
+      properties:
+        subject:
+          type: string
+        fromDate:
+          format: date
+          type: string
+        toDate:
+          format: date
+          type: string
+        content:
+          type: string
+        accountId:
+          type: string
+        vacationId:
+          type: string
+      type: object
+    SendMailDetails:
+      example:
+        sendMailId: sendMailId
+        displayName: displayName
+        serverName: serverName
+        fromAddress: fromAddress
+        serverPort: 0
+        userName: userName
+        connectionType: connectionType
+        status: true
+      properties:
+        sendMailId:
+          type: string
+        displayName:
+          type: string
+        serverName:
+          type: string
+        serverPort:
+          type: integer
+        userName:
+          type: string
+        connectionType:
+          type: string
+        fromAddress:
+          type: string
+        status:
+          type: boolean
+      type: object
+    Address:
+      example:
+        country: country
+        streetAddr: streetAddr
+        city: city
+        postalCode: postalCode
+        state: state
+      properties:
+        country:
+          type: string
+        streetAddr:
+          type: string
+        city:
+          type: string
+        postalCode:
+          type: string
+        state:
+          type: string
+      type: object
+  securitySchemes:
+    zohomail_auth:
+      flows:
+        authorizationCode:
+          authorizationUrl: https://accounts.zoho.com/oauth/v2/auth
+          scopes:
+            ZohoMail.accounts.ALL: Full access to accounts.
+            ZohoMail.accounts.READ: READ access to accounts.
+            ZohoMail.folders.ALL: Full access to folders.
+            ZohoMail.folders.CREATE: Create a folder.
+          tokenUrl: https://accounts.zoho.com/oauth/v2/token
+      type: oauth2
