@@ -79,6 +79,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
           description: Successful response with account details.
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
       security:
       - zohomail_auth:
         - ZohoMail.accounts.ALL
@@ -86,6 +92,41 @@ paths:
       summary: Get Specific Account Details
       tags:
       - accounts
+  /accounts/{accountId}/folders:
+    post:
+      description: Adds a new folder to a specific account.
+      operationId: createFolder
+      parameters:
+      - description: The ID of the account where the folder will be created.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createFolder_request'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+          description: Folder successfully created.
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Create a New Folder
+      tags:
+      - folders
 components:
   schemas:
     AccountsResponse:
@@ -299,6 +340,26 @@ components:
           $ref: '#/components/schemas/Status'
         data:
           $ref: '#/components/schemas/Account'
+      type: object
+    FolderResponse:
+      example:
+        data:
+          path: /new
+          previousFolderId: "2560636000000076001"
+          isArchived: 0
+          folderName: new
+          imapAccess: true
+          folderType: Inbox
+          URI: https://mail.zoho.com/api/accounts/N****C0CM/folders/2560636000000076007
+          folderId: "2560636000000076007"
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/Folder'
       type: object
     Status:
       example:
@@ -523,6 +584,60 @@ components:
           type: string
         state:
           type: string
+      type: object
+    Folder:
+      example:
+        path: /new
+        previousFolderId: "2560636000000076001"
+        isArchived: 0
+        folderName: new
+        imapAccess: true
+        folderType: Inbox
+        URI: https://mail.zoho.com/api/accounts/N****C0CM/folders/2560636000000076007
+        folderId: "2560636000000076007"
+      properties:
+        path:
+          example: /new
+          type: string
+        previousFolderId:
+          example: "2560636000000076001"
+          type: string
+        isArchived:
+          example: 0
+          type: integer
+        folderName:
+          example: new
+          type: string
+        imapAccess:
+          example: true
+          type: boolean
+        folderType:
+          example: Inbox
+          type: string
+        URI:
+          example: https://mail.zoho.com/api/accounts/N****C0CM/folders/2560636000000076007
+          type: string
+        folderId:
+          example: "2560636000000076007"
+          type: string
+      type: object
+    createFolder_request:
+      properties:
+        folderName:
+          description: The name of the folder to be created.
+          example: newFolder
+          type: string
+        parentFolderId:
+          description: The ID of the parent folder under which the new folder is created.
+          example: "2560636000000076001"
+          type: string
+        parentFolderPath:
+          description: The path of the parent folder under which the new folder is
+            created.
+          example: /Inbox
+          type: string
+      required:
+      - folderName
       type: object
   securitySchemes:
     zohomail_auth:

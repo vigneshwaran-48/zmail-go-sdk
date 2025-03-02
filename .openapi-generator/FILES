@@ -3,6 +3,7 @@
 README.md
 api/openapi.yaml
 api_accounts.go
+api_folders.go
 client.go
 configuration.go
 docs/Account.md
@@ -10,7 +11,11 @@ docs/AccountResponse.md
 docs/AccountsAPI.md
 docs/AccountsResponse.md
 docs/Address.md
+docs/CreateFolderRequest.md
 docs/EmailAddress.md
+docs/Folder.md
+docs/FolderResponse.md
+docs/FoldersAPI.md
 docs/MailForward.md
 docs/SendMailDetails.md
 docs/Status.md
@@ -20,10 +25,14 @@ model_account.go
 model_account_response.go
 model_accounts_response.go
 model_address.go
+model_create_folder_request.go
 model_email_address.go
+model_folder.go
+model_folder_response.go
 model_mail_forward.go
 model_send_mail_details.go
 model_status.go
 model_vacation_response.go
 response.go
+test/api_folders_test.go
 utils.go

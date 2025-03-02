@@ -81,6 +81,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+                
+  /accounts/{accountId}/folders:
+    post:
+      tags:
+        - folders
+      summary: Create a New Folder
+      description: Adds a new folder to a specific account.
+      operationId: createFolder
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account where the folder will be created.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - folderName
+              properties:
+                folderName:
+                  type: string
+                  description: The name of the folder to be created.
+                  example: "newFolder"
+                parentFolderId:
+                  type: string
+                  description: The ID of the parent folder under which the new folder is created.
+                  example: "2560636000000076001"
+                parentFolderPath:
+                  type: string
+                  description: The path of the parent folder under which the new folder is created.
+                  example: "/Inbox"
+      responses:
+        "201":
+          description: Folder successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
                 
 components:
   schemas:
@@ -101,6 +156,14 @@ components:
           $ref: '#/components/schemas/Status'
         data:
           $ref: '#/components/schemas/Account'
+          
+    FolderResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/Folder'
 
     Status:
       type: object
@@ -235,6 +298,34 @@ components:
           type: string
         state:
           type: string
+      
+    Folder:
+      type: object
+      properties:
+        path:
+          type: string
+          example: "/new"
+        previousFolderId:
+          type: string
+          example: "2560636000000076001"
+        isArchived:
+          type: integer
+          example: 0
+        folderName:
+          type: string
+          example: "new"
+        imapAccess:
+          type: boolean
+          example: true
+        folderType:
+          type: string
+          example: "Inbox"
+        URI:
+          type: string
+          example: "https://mail.zoho.com/api/accounts/N****C0CM/folders/2560636000000076007"
+        folderId:
+          type: string
+          example: "2560636000000076007"
 
   securitySchemes:
     zohomail_auth:
