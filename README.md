@@ -82,6 +82,7 @@ Class | Method | HTTP request | Description
 *AccountsAPI* | [**GetAccountDetails**](docs/AccountsAPI.md#getaccountdetails) | **Get** /accounts/{accountId} | Get Specific Account Details
 *AccountsAPI* | [**Getmailaccounts**](docs/AccountsAPI.md#getmailaccounts) | **Get** /accounts | Get all accounts
 *FoldersAPI* | [**CreateFolder**](docs/FoldersAPI.md#createfolder) | **Post** /accounts/{accountId}/folders | Create a New Folder
+*FoldersAPI* | [**GetAllFolders**](docs/FoldersAPI.md#getallfolders) | **Get** /accounts/{accountId}/folders | Get all folders of the account
 
 
 ## Documentation For Models
@@ -94,6 +95,7 @@ Class | Method | HTTP request | Description
  - [EmailAddress](docs/EmailAddress.md)
  - [Folder](docs/Folder.md)
  - [FolderResponse](docs/FolderResponse.md)
+ - [FoldersResponse](docs/FoldersResponse.md)
  - [MailForward](docs/MailForward.md)
  - [SendMailDetails](docs/SendMailDetails.md)
  - [Status](docs/Status.md)

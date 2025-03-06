@@ -136,6 +136,32 @@ paths:
           description: Page not found
         '500':
           description: Internal Error
+    get:
+      tags:
+        - folders
+      summary: Get all folders of the account
+      description: This API is used to list all the folders within the specified account.
+      operationId: getAllFolders
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account where the folder will be listed.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Folder successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoldersResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
                 
 components:
   schemas:
@@ -164,6 +190,16 @@ components:
           $ref: '#/components/schemas/Status'
         data:
           $ref: '#/components/schemas/Folder'
+    
+    FoldersResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Folder'
 
     Status:
       type: object

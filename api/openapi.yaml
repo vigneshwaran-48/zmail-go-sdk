@@ -93,6 +93,34 @@ paths:
       tags:
       - accounts
   /accounts/{accountId}/folders:
+    get:
+      description: This API is used to list all the folders within the specified account.
+      operationId: getAllFolders
+      parameters:
+      - description: The ID of the account where the folder will be listed.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoldersResponse'
+          description: Folder successfully created.
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Get all folders of the account
+      tags:
+      - folders
     post:
       description: Adds a new folder to a specific account.
       operationId: createFolder
@@ -360,6 +388,36 @@ components:
           $ref: '#/components/schemas/Status'
         data:
           $ref: '#/components/schemas/Folder'
+      type: object
+    FoldersResponse:
+      example:
+        data:
+        - path: /new
+          previousFolderId: "2560636000000076001"
+          isArchived: 0
+          folderName: new
+          imapAccess: true
+          folderType: Inbox
+          URI: https://mail.zoho.com/api/accounts/N****C0CM/folders/2560636000000076007
+          folderId: "2560636000000076007"
+        - path: /new
+          previousFolderId: "2560636000000076001"
+          isArchived: 0
+          folderName: new
+          imapAccess: true
+          folderType: Inbox
+          URI: https://mail.zoho.com/api/accounts/N****C0CM/folders/2560636000000076007
+          folderId: "2560636000000076007"
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          items:
+            $ref: '#/components/schemas/Folder'
+          type: array
       type: object
     Status:
       example:

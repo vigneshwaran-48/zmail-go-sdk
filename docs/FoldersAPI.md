@@ -5,6 +5,7 @@ All URIs are relative to *https://mail.zoho.com/api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateFolder**](FoldersAPI.md#CreateFolder) | **Post** /accounts/{accountId}/folders | Create a New Folder
+[**GetAllFolders**](FoldersAPI.md#GetAllFolders) | **Get** /accounts/{accountId}/folders | Get all folders of the account
 
 
 
@@ -73,6 +74,76 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetAllFolders
+
+> FoldersResponse GetAllFolders(ctx, accountId).Execute()
+
+Get all folders of the account
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/vigneshwaran-48/zmail-go-sdk"
+)
+
+func main() {
+	accountId := "accountId_example" // string | The ID of the account where the folder will be listed.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FoldersAPI.GetAllFolders(context.Background(), accountId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FoldersAPI.GetAllFolders``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetAllFolders`: FoldersResponse
+	fmt.Fprintf(os.Stdout, "Response from `FoldersAPI.GetAllFolders`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountId** | **string** | The ID of the account where the folder will be listed. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetAllFoldersRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**FoldersResponse**](FoldersResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

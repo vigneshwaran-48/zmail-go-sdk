@@ -16,6 +16,7 @@ docs/EmailAddress.md
 docs/Folder.md
 docs/FolderResponse.md
 docs/FoldersAPI.md
+docs/FoldersResponse.md
 docs/MailForward.md
 docs/SendMailDetails.md
 docs/Status.md
@@ -29,10 +30,10 @@ model_create_folder_request.go
 model_email_address.go
 model_folder.go
 model_folder_response.go
+model_folders_response.go
 model_mail_forward.go
 model_send_mail_details.go
 model_status.go
 model_vacation_response.go
 response.go
-test/api_folders_test.go
 utils.go
