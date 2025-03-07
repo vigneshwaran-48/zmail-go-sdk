@@ -151,7 +151,7 @@ paths:
             type: string
       responses:
         "200":
-          description: Folder successfully created.
+          description: Fetched all folders successfully
           content:
             application/json:
               schema:
@@ -162,9 +162,121 @@ paths:
           description: Page not found
         '500':
           description: Internal Error
+          
+  /accounts/{accountId}/folders/{folderId}:
+    get:
+      tags:
+          - folders
+      summary: Get a specific folder of the account
+      description: This API is used to retrieve a specific folder in a specific account, using the account ID and the folder ID.
+      operationId: getFolder
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account where the folder will be listed.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be fetched.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Fetched folder successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+    put:
+      tags:
+        - folders
+      summary: Update a folder
+      description: This API serves the purpose of updating folders with various modes.
+      operationId: updateFolder
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be fetched.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FolderUpdatePayload"
+              
+      responses:
+        "200":
+          description: Updated folder successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+    delete:
+      tags:
+        - folders
+      summary: Delete a folder
+      description: This API is used to delete a specific folder in a specific account, using the account ID and the folder ID.
+      operationId: deleteFolder
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be fetched.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted folder successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+      
                 
 components:
   schemas:
+    NoDataResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+          
     AccountsResponse:
       type: object
       properties:
@@ -362,6 +474,35 @@ components:
         folderId:
           type: string
           example: "2560636000000076007"
+          
+    FolderUpdateMode:
+      type: string
+      enum:
+        - move
+        - rename
+        - setViewableInIMAP
+        - removeViewableInIMAP
+        - markAsRead
+        - emptyFolder
+        
+    FolderUpdatePayload:
+      type: object
+      required:
+        - mode
+      properties:
+        mode:
+          $ref: '#/components/schemas/FolderUpdateMode'
+        parentFolderId:
+          type: string
+          description: This parameter refers to the folder ID of the destination parent folder where the folder should be moved.
+          example: "2560636000000076001"
+        previousFolderId:
+          type: string
+          description: This parameter refers to the folder ID of a specific folder under the destination parent folder. This determines the exact position where the folder should be placed.
+          example: "2560636000000076001"
+        folderName:
+          type: string
+          description: This parameter refers to the new name of the folder.
 
   securitySchemes:
     zohomail_auth:

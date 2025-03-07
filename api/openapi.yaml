@@ -111,7 +111,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FoldersResponse'
-          description: Folder successfully created.
+          description: Fetched all folders successfully
         "400":
           description: Invalid input passed
         "404":
@@ -155,8 +155,136 @@ paths:
       summary: Create a New Folder
       tags:
       - folders
+  /accounts/{accountId}/folders/{folderId}:
+    delete:
+      description: "This API is used to delete a specific folder in a specific account,\
+        \ using the account ID and the folder ID."
+      operationId: deleteFolder
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be fetched.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+          description: Deleted folder successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Delete a folder
+      tags:
+      - folders
+    get:
+      description: "This API is used to retrieve a specific folder in a specific account,\
+        \ using the account ID and the folder ID."
+      operationId: getFolder
+      parameters:
+      - description: The ID of the account where the folder will be listed.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be fetched.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+          description: Fetched folder successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Get a specific folder of the account
+      tags:
+      - folders
+    put:
+      description: This API serves the purpose of updating folders with various modes.
+      operationId: updateFolder
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be fetched.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderUpdatePayload'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+          description: Updated folder successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Update a folder
+      tags:
+      - folders
 components:
   schemas:
+    NoDataResponse:
+      example:
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+      type: object
     AccountsResponse:
       example:
         data:
@@ -678,6 +806,41 @@ components:
         folderId:
           example: "2560636000000076007"
           type: string
+      type: object
+    FolderUpdateMode:
+      enum:
+      - move
+      - rename
+      - setViewableInIMAP
+      - removeViewableInIMAP
+      - markAsRead
+      - emptyFolder
+      type: string
+    FolderUpdatePayload:
+      example:
+        mode: move
+        previousFolderId: "2560636000000076001"
+        parentFolderId: "2560636000000076001"
+        folderName: folderName
+      properties:
+        mode:
+          $ref: '#/components/schemas/FolderUpdateMode'
+        parentFolderId:
+          description: This parameter refers to the folder ID of the destination parent
+            folder where the folder should be moved.
+          example: "2560636000000076001"
+          type: string
+        previousFolderId:
+          description: This parameter refers to the folder ID of a specific folder
+            under the destination parent folder. This determines the exact position
+            where the folder should be placed.
+          example: "2560636000000076001"
+          type: string
+        folderName:
+          description: This parameter refers to the new name of the folder.
+          type: string
+      required:
+      - mode
       type: object
     createFolder_request:
       properties:
