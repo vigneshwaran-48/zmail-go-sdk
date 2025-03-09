@@ -293,7 +293,6 @@ paths:
         - name: folderId
           in: query
           description: The unique identifier for the folder from which the emails need to be retrieved. This can be fetched using the Get all folders API.
-          required: true
           schema:
             type: integer
             format: int64

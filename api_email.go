@@ -191,11 +191,10 @@ func (a *EmailAPIService) ListEmailsExecute(r ApiListEmailsRequest) (*EmailsResp
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.folderId == nil {
-		return localVarReturnValue, nil, reportError("folderId is required and must be specified")
-	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "folderId", r.folderId, "form", "")
+	if r.folderId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "folderId", r.folderId, "form", "")
+	}
 	if r.start != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "start", r.start, "form", "")
 	} else {

@@ -305,7 +305,7 @@ paths:
         explode: true
         in: query
         name: folderId
-        required: true
+        required: false
         schema:
           format: int64
           type: integer

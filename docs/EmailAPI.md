@@ -30,7 +30,7 @@ import (
 
 func main() {
 	accountId := "accountId_example" // string | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
-	folderId := int64(789) // int64 | The unique identifier for the folder from which the emails need to be retrieved. This can be fetched using the Get all folders API.
+	folderId := int64(789) // int64 | The unique identifier for the folder from which the emails need to be retrieved. This can be fetched using the Get all folders API. (optional)
 	start := int32(56) // int32 | The starting sequence number of the emails to be retrieved. (optional) (default to 1)
 	limit := int32(56) // int32 | The number of emails to be retrieved from the start value mentioned. Allowed values:- Min. value:- 1 and max. value:- 200. (optional) (default to 10)
 	status := "status_example" // string | Retrieve emails by read or unread status. (optional) (default to "all")
