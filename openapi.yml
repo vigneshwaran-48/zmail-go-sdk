@@ -652,6 +652,91 @@ paths:
           description: Page not found
         '500':
           description: Internal Error
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachmentinfo:
+    get:
+      tags:
+        - email
+      summary: Retrives the message attachment details
+      description: The API retrieves the attachment information of a particular email, based on the message ID passed in the request URL.
+      operationId: getMessageAttachmentInfo
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be used.
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: This key is used to identify the message to be used.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Fetched email attachment details successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentInfoResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachments/{attachmentId}:
+    get:
+      tags:
+        - email
+      summary: Retrives the message attachment content
+      description: The API is used to retrieve the content of the attachments in an email. In case, there are multiple attachments, the user needs to use the api for each attachment with the respective details.
+      operationId: getMessageAttachmentContent
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be used.
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: This key is used to identify the message to be used.
+          schema:
+            type: string
+        - name: attachmentId
+          in: path
+          required: true
+          description: This parameter is the unique ID associated with the particular attachment.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The attachment file whose parameter is passed in the Request Parameter is extracted and the entire content stream is received as a response. The stream can be directly used to write it as a file or use it for other purpose, like uploading to any other servers or accounts.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
 components:
   schemas:
     NoDataResponse:
@@ -747,6 +832,21 @@ components:
           $ref: '#/components/schemas/Status'
         data:
           $ref: '#/components/schemas/Email'
+          
+    AttachmentInfoResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          type: object
+          properties:
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Attachment'
+            messageId:
+              type: string
 
     Status:
       type: object
@@ -1060,6 +1160,19 @@ components:
         messageId:
           type: integer
           format: int64
+        
+    Attachment:
+      type: object
+      properties:
+        attachmentSize:
+          type: integer
+          description: Size of the attachment in bytes.
+        attachmentName:
+          type: string
+          description: Name of the attachment file.
+        attachmentId:
+          type: string
+          description: Unique identifier for the attachment.
   securitySchemes:
     zohomail_auth:
       type: oauth2

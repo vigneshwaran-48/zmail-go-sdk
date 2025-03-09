@@ -12,6 +12,9 @@ docs/AccountResponse.md
 docs/AccountsAPI.md
 docs/AccountsResponse.md
 docs/Address.md
+docs/Attachment.md
+docs/AttachmentInfoResponse.md
+docs/AttachmentInfoResponseData.md
 docs/CreateFolderRequest.md
 docs/Email.md
 docs/EmailAPI.md
@@ -42,6 +45,9 @@ model_account.go
 model_account_response.go
 model_accounts_response.go
 model_address.go
+model_attachment.go
+model_attachment_info_response.go
+model_attachment_info_response_data.go
 model_create_folder_request.go
 model_email.go
 model_email_address.go

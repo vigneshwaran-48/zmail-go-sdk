@@ -798,6 +798,114 @@ paths:
       summary: Retrives the message details
       tags:
       - email
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachmentinfo:
+    get:
+      description: "The API retrieves the attachment information of a particular email,\
+        \ based on the message ID passed in the request URL."
+      operationId: getMessageAttachmentInfo
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be used.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the message to be used.
+        explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentInfoResponse'
+          description: Fetched email attachment details successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Retrives the message attachment details
+      tags:
+      - email
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachments/{attachmentId}:
+    get:
+      description: "The API is used to retrieve the content of the attachments in\
+        \ an email. In case, there are multiple attachments, the user needs to use\
+        \ the api for each attachment with the respective details."
+      operationId: getMessageAttachmentContent
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be used.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the message to be used.
+        explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This parameter is the unique ID associated with the particular
+          attachment.
+        explode: false
+        in: path
+        name: attachmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: "The attachment file whose parameter is passed in the Request\
+            \ Parameter is extracted and the entire content stream is received as\
+            \ a response. The stream can be directly used to write it as a file or\
+            \ use it for other purpose, like uploading to any other servers or accounts."
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Retrives the message attachment content
+      tags:
+      - email
 components:
   schemas:
     NoDataResponse:
@@ -1227,6 +1335,26 @@ components:
           $ref: '#/components/schemas/Status'
         data:
           $ref: '#/components/schemas/Email'
+      type: object
+    AttachmentInfoResponse:
+      example:
+        data:
+          attachments:
+          - attachmentSize: 0
+            attachmentName: attachmentName
+            attachmentId: attachmentId
+          - attachmentSize: 0
+            attachmentName: attachmentName
+            attachmentId: attachmentId
+          messageId: messageId
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/AttachmentInfoResponse_data'
       type: object
     Status:
       example:
@@ -1658,6 +1786,22 @@ components:
           format: int64
           type: integer
       type: object
+    Attachment:
+      example:
+        attachmentSize: 0
+        attachmentName: attachmentName
+        attachmentId: attachmentId
+      properties:
+        attachmentSize:
+          description: Size of the attachment in bytes.
+          type: integer
+        attachmentName:
+          description: Name of the attachment file.
+          type: string
+        attachmentId:
+          description: Unique identifier for the attachment.
+          type: string
+      type: object
     createFolder_request:
       properties:
         folderName:
@@ -1695,6 +1839,24 @@ components:
         messageId:
           type: string
         content:
+          type: string
+      type: object
+    AttachmentInfoResponse_data:
+      example:
+        attachments:
+        - attachmentSize: 0
+          attachmentName: attachmentName
+          attachmentId: attachmentId
+        - attachmentSize: 0
+          attachmentName: attachmentName
+          attachmentId: attachmentId
+        messageId: messageId
+      properties:
+        attachments:
+          items:
+            $ref: '#/components/schemas/Attachment'
+          type: array
+        messageId:
           type: string
       type: object
     EmailHeaderDetails_headerContent:

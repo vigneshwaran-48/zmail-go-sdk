@@ -18,11 +18,238 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"os"
 )
 
 
 // EmailAPIService EmailAPI service
 type EmailAPIService service
+
+type ApiGetMessageAttachmentContentRequest struct {
+	ctx context.Context
+	ApiService *EmailAPIService
+	accountId string
+	folderId string
+	messageId string
+	attachmentId string
+}
+
+func (r ApiGetMessageAttachmentContentRequest) Execute() (*os.File, *http.Response, error) {
+	return r.ApiService.GetMessageAttachmentContentExecute(r)
+}
+
+/*
+GetMessageAttachmentContent Retrives the message attachment content
+
+The API is used to retrieve the content of the attachments in an email. In case, there are multiple attachments, the user needs to use the api for each attachment with the respective details.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param accountId This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+ @param folderId This key is used to identify the folder to be used.
+ @param messageId This key is used to identify the message to be used.
+ @param attachmentId This parameter is the unique ID associated with the particular attachment.
+ @return ApiGetMessageAttachmentContentRequest
+*/
+func (a *EmailAPIService) GetMessageAttachmentContent(ctx context.Context, accountId string, folderId string, messageId string, attachmentId string) ApiGetMessageAttachmentContentRequest {
+	return ApiGetMessageAttachmentContentRequest{
+		ApiService: a,
+		ctx: ctx,
+		accountId: accountId,
+		folderId: folderId,
+		messageId: messageId,
+		attachmentId: attachmentId,
+	}
+}
+
+// Execute executes the request
+//  @return *os.File
+func (a *EmailAPIService) GetMessageAttachmentContentExecute(r ApiGetMessageAttachmentContentRequest) (*os.File, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *os.File
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EmailAPIService.GetMessageAttachmentContent")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachments/{attachmentId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"folderId"+"}", url.PathEscape(parameterValueToString(r.folderId, "folderId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"messageId"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"attachmentId"+"}", url.PathEscape(parameterValueToString(r.attachmentId, "attachmentId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/octet-stream"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetMessageAttachmentInfoRequest struct {
+	ctx context.Context
+	ApiService *EmailAPIService
+	accountId string
+	folderId string
+	messageId string
+}
+
+func (r ApiGetMessageAttachmentInfoRequest) Execute() (*AttachmentInfoResponse, *http.Response, error) {
+	return r.ApiService.GetMessageAttachmentInfoExecute(r)
+}
+
+/*
+GetMessageAttachmentInfo Retrives the message attachment details
+
+The API retrieves the attachment information of a particular email, based on the message ID passed in the request URL.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param accountId This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+ @param folderId This key is used to identify the folder to be used.
+ @param messageId This key is used to identify the message to be used.
+ @return ApiGetMessageAttachmentInfoRequest
+*/
+func (a *EmailAPIService) GetMessageAttachmentInfo(ctx context.Context, accountId string, folderId string, messageId string) ApiGetMessageAttachmentInfoRequest {
+	return ApiGetMessageAttachmentInfoRequest{
+		ApiService: a,
+		ctx: ctx,
+		accountId: accountId,
+		folderId: folderId,
+		messageId: messageId,
+	}
+}
+
+// Execute executes the request
+//  @return AttachmentInfoResponse
+func (a *EmailAPIService) GetMessageAttachmentInfoExecute(r ApiGetMessageAttachmentInfoRequest) (*AttachmentInfoResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *AttachmentInfoResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EmailAPIService.GetMessageAttachmentInfo")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachmentinfo"
+	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"folderId"+"}", url.PathEscape(parameterValueToString(r.folderId, "folderId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"messageId"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiGetMessageContentRequest struct {
 	ctx context.Context

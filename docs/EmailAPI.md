@@ -4,6 +4,8 @@ All URIs are relative to *https://mail.zoho.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**GetMessageAttachmentContent**](EmailAPI.md#GetMessageAttachmentContent) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachments/{attachmentId} | Retrives the message attachment content
+[**GetMessageAttachmentInfo**](EmailAPI.md#GetMessageAttachmentInfo) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachmentinfo | Retrives the message attachment details
 [**GetMessageContent**](EmailAPI.md#GetMessageContent) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/content | Retrives the content of email
 [**GetMessageDetails**](EmailAPI.md#GetMessageDetails) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/details | Retrives the message details
 [**GetMessageHeader**](EmailAPI.md#GetMessageHeader) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/header | Retrives message headers
@@ -11,6 +13,161 @@ Method | HTTP request | Description
 [**ListEmails**](EmailAPI.md#ListEmails) | **Get** /api/accounts/{accountId}/messages/view | Retrieves emails
 [**SearchEmails**](EmailAPI.md#SearchEmails) | **Get** /api/accounts/{accountId}/messages/search | Searches emails
 
+
+
+## GetMessageAttachmentContent
+
+> *os.File GetMessageAttachmentContent(ctx, accountId, folderId, messageId, attachmentId).Execute()
+
+Retrives the message attachment content
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/vigneshwaran-48/zmail-go-sdk"
+)
+
+func main() {
+	accountId := "accountId_example" // string | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+	folderId := "folderId_example" // string | This key is used to identify the folder to be used.
+	messageId := "messageId_example" // string | This key is used to identify the message to be used.
+	attachmentId := "attachmentId_example" // string | This parameter is the unique ID associated with the particular attachment.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.EmailAPI.GetMessageAttachmentContent(context.Background(), accountId, folderId, messageId, attachmentId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EmailAPI.GetMessageAttachmentContent``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetMessageAttachmentContent`: *os.File
+	fmt.Fprintf(os.Stdout, "Response from `EmailAPI.GetMessageAttachmentContent`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountId** | **string** | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition. | 
+**folderId** | **string** | This key is used to identify the folder to be used. | 
+**messageId** | **string** | This key is used to identify the message to be used. | 
+**attachmentId** | **string** | This parameter is the unique ID associated with the particular attachment. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetMessageAttachmentContentRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+
+
+### Return type
+
+[***os.File**](*os.File.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/octet-stream
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetMessageAttachmentInfo
+
+> AttachmentInfoResponse GetMessageAttachmentInfo(ctx, accountId, folderId, messageId).Execute()
+
+Retrives the message attachment details
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/vigneshwaran-48/zmail-go-sdk"
+)
+
+func main() {
+	accountId := "accountId_example" // string | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+	folderId := "folderId_example" // string | This key is used to identify the folder to be used.
+	messageId := "messageId_example" // string | This key is used to identify the message to be used.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.EmailAPI.GetMessageAttachmentInfo(context.Background(), accountId, folderId, messageId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EmailAPI.GetMessageAttachmentInfo``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetMessageAttachmentInfo`: AttachmentInfoResponse
+	fmt.Fprintf(os.Stdout, "Response from `EmailAPI.GetMessageAttachmentInfo`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountId** | **string** | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition. | 
+**folderId** | **string** | This key is used to identify the folder to be used. | 
+**messageId** | **string** | This key is used to identify the message to be used. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetMessageAttachmentInfoRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+
+### Return type
+
+[**AttachmentInfoResponse**](AttachmentInfoResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## GetMessageContent

@@ -81,6 +81,8 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AccountsAPI* | [**GetAccountDetails**](docs/AccountsAPI.md#getaccountdetails) | **Get** /api/accounts/{accountId} | Get Specific Account Details
 *AccountsAPI* | [**Getmailaccounts**](docs/AccountsAPI.md#getmailaccounts) | **Get** /api/accounts | Get all accounts
+*EmailAPI* | [**GetMessageAttachmentContent**](docs/EmailAPI.md#getmessageattachmentcontent) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachments/{attachmentId} | Retrives the message attachment content
+*EmailAPI* | [**GetMessageAttachmentInfo**](docs/EmailAPI.md#getmessageattachmentinfo) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachmentinfo | Retrives the message attachment details
 *EmailAPI* | [**GetMessageContent**](docs/EmailAPI.md#getmessagecontent) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/content | Retrives the content of email
 *EmailAPI* | [**GetMessageDetails**](docs/EmailAPI.md#getmessagedetails) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/details | Retrives the message details
 *EmailAPI* | [**GetMessageHeader**](docs/EmailAPI.md#getmessageheader) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/header | Retrives message headers
@@ -100,6 +102,9 @@ Class | Method | HTTP request | Description
  - [AccountResponse](docs/AccountResponse.md)
  - [AccountsResponse](docs/AccountsResponse.md)
  - [Address](docs/Address.md)
+ - [Attachment](docs/Attachment.md)
+ - [AttachmentInfoResponse](docs/AttachmentInfoResponse.md)
+ - [AttachmentInfoResponseData](docs/AttachmentInfoResponseData.md)
  - [CreateFolderRequest](docs/CreateFolderRequest.md)
  - [Email](docs/Email.md)
  - [EmailAddress](docs/EmailAddress.md)
