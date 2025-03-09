@@ -66,7 +66,7 @@ func (a *AccountsAPIService) GetAccountDetailsExecute(r ApiGetAccountDetailsRequ
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/accounts/{accountId}"
+	localVarPath := localBasePath + "/api/accounts/{accountId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -166,7 +166,7 @@ func (a *AccountsAPIService) GetmailaccountsExecute(r ApiGetmailaccountsRequest)
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/accounts"
+	localVarPath := localBasePath + "/api/accounts"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

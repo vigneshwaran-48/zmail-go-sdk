@@ -1,11 +1,11 @@
 # \AccountsAPI
 
-All URIs are relative to *https://mail.zoho.com/api*
+All URIs are relative to *https://mail.zoho.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetAccountDetails**](AccountsAPI.md#GetAccountDetails) | **Get** /accounts/{accountId} | Get Specific Account Details
-[**Getmailaccounts**](AccountsAPI.md#Getmailaccounts) | **Get** /accounts | Get all accounts
+[**GetAccountDetails**](AccountsAPI.md#GetAccountDetails) | **Get** /api/accounts/{accountId} | Get Specific Account Details
+[**Getmailaccounts**](AccountsAPI.md#Getmailaccounts) | **Get** /api/accounts | Get all accounts
 
 
 

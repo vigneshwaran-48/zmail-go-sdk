@@ -90,11 +90,27 @@ type Configuration struct {
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
 		DefaultHeader:    make(map[string]string),
-		UserAgent:        "OpenAPI-Generator/v0.0.2/go",
+		UserAgent:        "OpenAPI-Generator/v0.0.3/go",
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://mail.zoho.com/api",
+				URL: "https://mail.zoho.com",
+				Description: "No description provided",
+			},
+			{
+				URL: "https://mail.zoho.in",
+				Description: "No description provided",
+			},
+			{
+				URL: "https://mail.zoho.eu",
+				Description: "No description provided",
+			},
+			{
+				URL: "https://mail.zoho.jp",
+				Description: "No description provided",
+			},
+			{
+				URL: "https://mail.zohocloud.ca",
 				Description: "No description provided",
 			},
 		},

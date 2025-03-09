@@ -14,7 +14,11 @@ externalDocs:
   description: Find out more about the Zoho Mail REST API
   url: https://www.zoho.com/mail/help/api/overview.html
 servers:
-  - url: https://mail.zoho.com/api
+  - url: https://mail.zoho.com
+  - url: https://mail.zoho.in
+  - url: https://mail.zoho.eu
+  - url: https://mail.zoho.jp
+  - url: https://mail.zohocloud.ca
 tags:
   - name: accounts
     description: The User Mail Account APIs help you to get and update information about the mail accounts and the related configurations and settings of the users in the organization. The following are part of Mail Accounts API
@@ -31,8 +35,13 @@ tags:
     externalDocs:
       description: Find out more
       url: https://www.zoho.com/mail/help/api/labels-api.html
+  - name: email
+    description: The Message APIs help you to retrieve messages from the user account and access them.
+    externalDocs:
+      description: Find out more
+      url: https://www.zoho.com/mail/help/api/email-api.html
 paths:
-  /accounts:
+  /api/accounts:
     get:
       tags:
         - accounts
@@ -56,7 +65,7 @@ paths:
         - zohomail_auth:
             - ZohoMail.accounts.ALL
             - ZohoMail.accounts.READ
-  /accounts/{accountId}:
+  /api/accounts/{accountId}:
     get:
       tags:
         - accounts
@@ -88,7 +97,7 @@ paths:
         '500':
           description: Internal Error
                 
-  /accounts/{accountId}/folders:
+  /api/accounts/{accountId}/folders:
     post:
       tags:
         - folders
@@ -163,7 +172,7 @@ paths:
         '500':
           description: Internal Error
           
-  /accounts/{accountId}/folders/{folderId}:
+  /api/accounts/{accountId}/folders/{folderId}:
     get:
       tags:
           - folders
@@ -267,8 +276,157 @@ paths:
           description: Page not found
         '500':
           description: Internal Error
-      
-                
+  /api/accounts/{accountId}/messages/view:
+    get:
+      tags:
+        - email
+      summary: Retrieves emails
+      description: The API retrieves a list of all the emails in a specific folder or a list of emails based on predefined conditions like status/flags/labels, and more. 
+      operationId: listEmails
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: query
+          description: The unique identifier for the folder from which the emails need to be retrieved. This can be fetched using the Get all folders API.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: start
+          in: query
+          description: The starting sequence number of the emails to be retrieved.
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: limit
+          in: query
+          description: The number of emails to be retrieved from the start value mentioned. Allowed values:- Min. value:- 1 and max. value:- 200.
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            minimum: 1
+            maximum: 200
+        - name: status
+          in: query
+          description: Retrieve emails by read or unread status.
+          schema:
+            type: string
+            enum: [read, unread, all]
+            default: all
+        - name: flagid
+          in: query
+          description: The unique identifier for the flag used to retrieve emails based on a specific flag type.
+          schema:
+            type: integer
+            format: int32
+            description: >-
+              Possible values: 
+                                0 - flag_not_set
+                                1 - info
+                                2 - important
+                                3 - followup
+        - name: labelid
+          in: query
+          description: The unique identifier for the label used to retrieve emails based on a specific label.
+          schema:
+            type: integer
+            format: int64
+        - name: threadId
+          in: query
+          description: The unique identifier for the flag used to retrieve emails of the given threadId.
+          schema:
+            type: integer
+            format: int64
+        - name: sortBy
+          in: query
+          description: The basis on which the sorting of the list of emails should be done.
+          schema:
+            type: string
+            enum: [date, messageId, size]
+            default: date
+        - name: sortorder
+          in: query
+          description: The order in which the sorting of the list of emails should be done.
+          schema:
+            type: boolean
+            description: true for ascending order, false for descending order
+            default: false
+        - name: includeto
+          in: query
+          description: Whether to details need to be included or not on the list of emails retrieved.
+          schema:
+            type: boolean
+            description: true to include to details, false to not include to details.
+            default: false
+        - name: includesent
+          in: query
+          description: Whether sent emails need to be included or not on the list of emails retrieved.
+          schema:
+            type: boolean
+            description: true to include sent emails, false to not include sent emails.
+            default: false
+        - name: includearchive
+          in: query
+          description: Whether archived emails need to be included or not on the list of emails retrieved.
+          schema:
+            type: boolean
+            description: true to include archived emails, false to not include archived emails.
+            default: false
+        - name: attachedMails
+          in: query
+          description: Retrieve only the emails with attachments.
+          schema:
+            type: boolean
+            description: true to retrieve the emails with attachments, false to retrieve all emails.
+            default: false
+        - name: inlinedMails
+          in: query
+          description: Retrieve only the emails with inline images.
+          schema:
+            type: boolean
+            description: true to retrieve the emails with inline images, false to retrieve all emails.
+            default: false
+        - name: flaggedMails
+          in: query
+          description: Retrieve only flagged emails.
+          schema:
+            type: boolean
+            description: true to retrieve flagged emails, false to retrieve all emails.
+            default: false
+        - name: respondedMails
+          in: query
+          description: Retrieve only emails with replies.
+          schema:
+            type: boolean
+            description: true to retrieve emails with replies, false to retrieve all emails.
+            default: false
+        - name: threadedMails
+          in: query
+          description: Retrieve emails that are a part of conversations.
+          schema:
+            type: boolean
+            description: true to retrieve threaded emails, false to retrieve all emails.
+            default: false
+      responses:
+        "200":
+          description: Fetched emails successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailsResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
 components:
   schemas:
     NoDataResponse:
@@ -312,6 +470,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Folder'
+          
+    EmailsResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Email'
 
     Status:
       type: object
@@ -504,6 +672,71 @@ components:
           type: string
           description: This parameter refers to the new name of the folder.
 
+    Email:
+      type: object
+      properties:
+        summary:
+          type: string
+          description: A brief summary of the email.
+        sentDateInGMT:
+          type: integer
+          format: int64
+          description: The sent date of the email in GMT, represented as a Unix timestamp in milliseconds.
+        calendarType:
+          type: integer
+          description: The type of calendar associated with the email.
+        subject:
+          type: string
+          description: The subject of the email.
+        messageId:
+          type: string
+          description: The unique identifier of the email message.
+        threadCount:
+          type: string
+          description: The number of emails in the thread.
+        flagid:
+          type: string
+          description: The flag identifier associated with the email (e.g., flag_not_set).
+        status2:
+          type: string
+          description: An alternative status code for the email.
+        priority:
+          type: string
+          description: The priority of the email.
+        hasInline:
+          type: string
+          description: Indicates whether the email has inline content (true/false, represented as string).
+        toAddress:
+          type: string
+          description: The recipient's email address, including display name.
+        folderId:
+          type: string
+          description: The unique identifier of the folder containing the email.
+        ccAddress:
+          type: string
+          description: The CC recipient's email address, or "Not Provided".
+        threadId:
+          type: string
+          description: The unique identifier of the email thread.
+        hasAttachment:
+          type: string
+          description: Indicates whether the email has attachments (0 or 1, represented as string).
+        size:
+          type: string
+          description: The size of the email.
+        sender:
+          type: string
+          description: The sender's display name.
+        receivedTime:
+          type: integer
+          format: int64
+          description: The received time of the email, represented as a Unix timestamp in milliseconds.
+        fromAddress:
+          type: string
+          description: The sender's email address.
+        status:
+          type: string
+          description: The status of the email (e.g., 1 for read, 0 for unread).
   securitySchemes:
     zohomail_auth:
       type: oauth2

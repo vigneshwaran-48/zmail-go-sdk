@@ -1,14 +1,14 @@
 # \FoldersAPI
 
-All URIs are relative to *https://mail.zoho.com/api*
+All URIs are relative to *https://mail.zoho.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateFolder**](FoldersAPI.md#CreateFolder) | **Post** /accounts/{accountId}/folders | Create a New Folder
-[**DeleteFolder**](FoldersAPI.md#DeleteFolder) | **Delete** /accounts/{accountId}/folders/{folderId} | Delete a folder
-[**GetAllFolders**](FoldersAPI.md#GetAllFolders) | **Get** /accounts/{accountId}/folders | Get all folders of the account
-[**GetFolder**](FoldersAPI.md#GetFolder) | **Get** /accounts/{accountId}/folders/{folderId} | Get a specific folder of the account
-[**UpdateFolder**](FoldersAPI.md#UpdateFolder) | **Put** /accounts/{accountId}/folders/{folderId} | Update a folder
+[**CreateFolder**](FoldersAPI.md#CreateFolder) | **Post** /api/accounts/{accountId}/folders | Create a New Folder
+[**DeleteFolder**](FoldersAPI.md#DeleteFolder) | **Delete** /api/accounts/{accountId}/folders/{folderId} | Delete a folder
+[**GetAllFolders**](FoldersAPI.md#GetAllFolders) | **Get** /api/accounts/{accountId}/folders | Get all folders of the account
+[**GetFolder**](FoldersAPI.md#GetFolder) | **Get** /api/accounts/{accountId}/folders/{folderId} | Get a specific folder of the account
+[**UpdateFolder**](FoldersAPI.md#UpdateFolder) | **Put** /api/accounts/{accountId}/folders/{folderId} | Update a folder
 
 
 

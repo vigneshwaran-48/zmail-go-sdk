@@ -12,7 +12,11 @@ externalDocs:
   description: Find out more about the Zoho Mail REST API
   url: https://www.zoho.com/mail/help/api/overview.html
 servers:
-- url: https://mail.zoho.com/api
+- url: https://mail.zoho.com
+- url: https://mail.zoho.in
+- url: https://mail.zoho.eu
+- url: https://mail.zoho.jp
+- url: https://mail.zohocloud.ca
 tags:
 - description: The User Mail Account APIs help you to get and update information about
     the mail accounts and the related configurations and settings of the users in
@@ -33,8 +37,14 @@ tags:
     description: Find out more
     url: https://www.zoho.com/mail/help/api/labels-api.html
   name: labels
+- description: The Message APIs help you to retrieve messages from the user account
+    and access them.
+  externalDocs:
+    description: Find out more
+    url: https://www.zoho.com/mail/help/api/email-api.html
+  name: email
 paths:
-  /accounts:
+  /api/accounts:
     get:
       description: This API is used to retrieve all the accounts details of the authenticated
         user.
@@ -59,7 +69,7 @@ paths:
       summary: Get all accounts
       tags:
       - accounts
-  /accounts/{accountId}:
+  /api/accounts/{accountId}:
     get:
       description: Retrieve details of a specific Zoho Mail account.
       operationId: getAccountDetails
@@ -92,7 +102,7 @@ paths:
       summary: Get Specific Account Details
       tags:
       - accounts
-  /accounts/{accountId}/folders:
+  /api/accounts/{accountId}/folders:
     get:
       description: This API is used to list all the folders within the specified account.
       operationId: getAllFolders
@@ -155,7 +165,7 @@ paths:
       summary: Create a New Folder
       tags:
       - folders
-  /accounts/{accountId}/folders/{folderId}:
+  /api/accounts/{accountId}/folders/{folderId}:
     delete:
       description: "This API is used to delete a specific folder in a specific account,\
         \ using the account ID and the folder ID."
@@ -274,6 +284,229 @@ paths:
       summary: Update a folder
       tags:
       - folders
+  /api/accounts/{accountId}/messages/view:
+    get:
+      description: "The API retrieves a list of all the emails in a specific folder\
+        \ or a list of emails based on predefined conditions like status/flags/labels,\
+        \ and more."
+      operationId: listEmails
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The unique identifier for the folder from which the emails need
+          to be retrieved. This can be fetched using the Get all folders API.
+        explode: true
+        in: query
+        name: folderId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - description: The starting sequence number of the emails to be retrieved.
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          default: 1
+          format: int32
+          type: integer
+        style: form
+      - description: The number of emails to be retrieved from the start value mentioned.
+          Allowed values:- Min. value:- 1 and max. value:- 200.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          format: int32
+          maximum: 200
+          minimum: 1
+          type: integer
+        style: form
+      - description: Retrieve emails by read or unread status.
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          default: all
+          enum:
+          - read
+          - unread
+          - all
+          type: string
+        style: form
+      - description: The unique identifier for the flag used to retrieve emails based
+          on a specific flag type.
+        explode: true
+        in: query
+        name: flagid
+        required: false
+        schema:
+          description: "Possible values: \n                  0 - flag_not_set\n  \
+            \                1 - info\n                  2 - important\n         \
+            \         3 - followup"
+          format: int32
+          type: integer
+        style: form
+      - description: The unique identifier for the label used to retrieve emails based
+          on a specific label.
+        explode: true
+        in: query
+        name: labelid
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - description: The unique identifier for the flag used to retrieve emails of
+          the given threadId.
+        explode: true
+        in: query
+        name: threadId
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - description: The basis on which the sorting of the list of emails should be
+          done.
+        explode: true
+        in: query
+        name: sortBy
+        required: false
+        schema:
+          default: date
+          enum:
+          - date
+          - messageId
+          - size
+          type: string
+        style: form
+      - description: The order in which the sorting of the list of emails should be
+          done.
+        explode: true
+        in: query
+        name: sortorder
+        required: false
+        schema:
+          default: false
+          description: "true for ascending order, false for descending order"
+          type: boolean
+        style: form
+      - description: Whether to details need to be included or not on the list of
+          emails retrieved.
+        explode: true
+        in: query
+        name: includeto
+        required: false
+        schema:
+          default: false
+          description: "true to include to details, false to not include to details."
+          type: boolean
+        style: form
+      - description: Whether sent emails need to be included or not on the list of
+          emails retrieved.
+        explode: true
+        in: query
+        name: includesent
+        required: false
+        schema:
+          default: false
+          description: "true to include sent emails, false to not include sent emails."
+          type: boolean
+        style: form
+      - description: Whether archived emails need to be included or not on the list
+          of emails retrieved.
+        explode: true
+        in: query
+        name: includearchive
+        required: false
+        schema:
+          default: false
+          description: "true to include archived emails, false to not include archived\
+            \ emails."
+          type: boolean
+        style: form
+      - description: Retrieve only the emails with attachments.
+        explode: true
+        in: query
+        name: attachedMails
+        required: false
+        schema:
+          default: false
+          description: "true to retrieve the emails with attachments, false to retrieve\
+            \ all emails."
+          type: boolean
+        style: form
+      - description: Retrieve only the emails with inline images.
+        explode: true
+        in: query
+        name: inlinedMails
+        required: false
+        schema:
+          default: false
+          description: "true to retrieve the emails with inline images, false to retrieve\
+            \ all emails."
+          type: boolean
+        style: form
+      - description: Retrieve only flagged emails.
+        explode: true
+        in: query
+        name: flaggedMails
+        required: false
+        schema:
+          default: false
+          description: "true to retrieve flagged emails, false to retrieve all emails."
+          type: boolean
+        style: form
+      - description: Retrieve only emails with replies.
+        explode: true
+        in: query
+        name: respondedMails
+        required: false
+        schema:
+          default: false
+          description: "true to retrieve emails with replies, false to retrieve all\
+            \ emails."
+          type: boolean
+        style: form
+      - description: Retrieve emails that are a part of conversations.
+        explode: true
+        in: query
+        name: threadedMails
+        required: false
+        schema:
+          default: false
+          description: "true to retrieve threaded emails, false to retrieve all emails."
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailsResponse'
+          description: Fetched emails successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Retrieves emails
+      tags:
+      - email
 components:
   schemas:
     NoDataResponse:
@@ -545,6 +778,60 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Folder'
+          type: array
+      type: object
+    EmailsResponse:
+      example:
+        data:
+        - summary: summary
+          sentDateInGMT: 0
+          calendarType: 6
+          subject: subject
+          messageId: messageId
+          threadCount: threadCount
+          flagid: flagid
+          status2: status2
+          priority: priority
+          hasInline: hasInline
+          toAddress: toAddress
+          folderId: folderId
+          ccAddress: ccAddress
+          threadId: threadId
+          hasAttachment: hasAttachment
+          size: size
+          sender: sender
+          receivedTime: 1
+          fromAddress: fromAddress
+          status: status
+        - summary: summary
+          sentDateInGMT: 0
+          calendarType: 6
+          subject: subject
+          messageId: messageId
+          threadCount: threadCount
+          flagid: flagid
+          status2: status2
+          priority: priority
+          hasInline: hasInline
+          toAddress: toAddress
+          folderId: folderId
+          ccAddress: ccAddress
+          threadId: threadId
+          hasAttachment: hasAttachment
+          size: size
+          sender: sender
+          receivedTime: 1
+          fromAddress: fromAddress
+          status: status
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          items:
+            $ref: '#/components/schemas/Email'
           type: array
       type: object
     Status:
@@ -841,6 +1128,96 @@ components:
           type: string
       required:
       - mode
+      type: object
+    Email:
+      example:
+        summary: summary
+        sentDateInGMT: 0
+        calendarType: 6
+        subject: subject
+        messageId: messageId
+        threadCount: threadCount
+        flagid: flagid
+        status2: status2
+        priority: priority
+        hasInline: hasInline
+        toAddress: toAddress
+        folderId: folderId
+        ccAddress: ccAddress
+        threadId: threadId
+        hasAttachment: hasAttachment
+        size: size
+        sender: sender
+        receivedTime: 1
+        fromAddress: fromAddress
+        status: status
+      properties:
+        summary:
+          description: A brief summary of the email.
+          type: string
+        sentDateInGMT:
+          description: "The sent date of the email in GMT, represented as a Unix timestamp\
+            \ in milliseconds."
+          format: int64
+          type: integer
+        calendarType:
+          description: The type of calendar associated with the email.
+          type: integer
+        subject:
+          description: The subject of the email.
+          type: string
+        messageId:
+          description: The unique identifier of the email message.
+          type: string
+        threadCount:
+          description: The number of emails in the thread.
+          type: string
+        flagid:
+          description: "The flag identifier associated with the email (e.g., flag_not_set)."
+          type: string
+        status2:
+          description: An alternative status code for the email.
+          type: string
+        priority:
+          description: The priority of the email.
+          type: string
+        hasInline:
+          description: "Indicates whether the email has inline content (true/false,\
+            \ represented as string)."
+          type: string
+        toAddress:
+          description: "The recipient's email address, including display name."
+          type: string
+        folderId:
+          description: The unique identifier of the folder containing the email.
+          type: string
+        ccAddress:
+          description: "The CC recipient's email address, or \"Not Provided\"."
+          type: string
+        threadId:
+          description: The unique identifier of the email thread.
+          type: string
+        hasAttachment:
+          description: "Indicates whether the email has attachments (0 or 1, represented\
+            \ as string)."
+          type: string
+        size:
+          description: The size of the email.
+          type: string
+        sender:
+          description: The sender's display name.
+          type: string
+        receivedTime:
+          description: "The received time of the email, represented as a Unix timestamp\
+            \ in milliseconds."
+          format: int64
+          type: integer
+        fromAddress:
+          description: The sender's email address.
+          type: string
+        status:
+          description: "The status of the email (e.g., 1 for read, 0 for unread)."
+          type: string
       type: object
     createFolder_request:
       properties:

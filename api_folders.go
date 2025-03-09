@@ -72,7 +72,7 @@ func (a *FoldersAPIService) CreateFolderExecute(r ApiCreateFolderRequest) (*Fold
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/accounts/{accountId}/folders"
+	localVarPath := localBasePath + "/api/accounts/{accountId}/folders"
 	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -183,7 +183,7 @@ func (a *FoldersAPIService) DeleteFolderExecute(r ApiDeleteFolderRequest) (*NoDa
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/accounts/{accountId}/folders/{folderId}"
+	localVarPath := localBasePath + "/api/accounts/{accountId}/folders/{folderId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"folderId"+"}", url.PathEscape(parameterValueToString(r.folderId, "folderId")), -1)
 
@@ -287,7 +287,7 @@ func (a *FoldersAPIService) GetAllFoldersExecute(r ApiGetAllFoldersRequest) (*Fo
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/accounts/{accountId}/folders"
+	localVarPath := localBasePath + "/api/accounts/{accountId}/folders"
 	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -393,7 +393,7 @@ func (a *FoldersAPIService) GetFolderExecute(r ApiGetFolderRequest) (*FolderResp
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/accounts/{accountId}/folders/{folderId}"
+	localVarPath := localBasePath + "/api/accounts/{accountId}/folders/{folderId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"folderId"+"}", url.PathEscape(parameterValueToString(r.folderId, "folderId")), -1)
 
@@ -506,7 +506,7 @@ func (a *FoldersAPIService) UpdateFolderExecute(r ApiUpdateFolderRequest) (*NoDa
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/accounts/{accountId}/folders/{folderId}"
+	localVarPath := localBasePath + "/api/accounts/{accountId}/folders/{folderId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"folderId"+"}", url.PathEscape(parameterValueToString(r.folderId, "folderId")), -1)
 
