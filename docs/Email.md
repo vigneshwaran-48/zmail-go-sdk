@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Summary** | Pointer to **string** | A brief summary of the email. | [optional] 
-**SentDateInGMT** | Pointer to **int64** | The sent date of the email in GMT, represented as a Unix timestamp in milliseconds. | [optional] 
+**SentDateInGMT** | Pointer to **string** | The sent date of the email in GMT, represented as a Unix timestamp in milliseconds. | [optional] 
 **CalendarType** | Pointer to **int32** | The type of calendar associated with the email. | [optional] 
 **Subject** | Pointer to **string** | The subject of the email. | [optional] 
 **MessageId** | Pointer to **string** | The unique identifier of the email message. | [optional] 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **HasAttachment** | Pointer to **string** | Indicates whether the email has attachments (0 or 1, represented as string). | [optional] 
 **Size** | Pointer to **string** | The size of the email. | [optional] 
 **Sender** | Pointer to **string** | The sender&#39;s display name. | [optional] 
-**ReceivedTime** | Pointer to **int64** | The received time of the email, represented as a Unix timestamp in milliseconds. | [optional] 
+**ReceivedTime** | Pointer to **string** | The received time of the email, represented as a Unix timestamp in milliseconds. | [optional] 
 **FromAddress** | Pointer to **string** | The sender&#39;s email address. | [optional] 
 **Status** | Pointer to **string** | The status of the email (e.g., 1 for read, 0 for unread). | [optional] 
 
@@ -71,20 +71,20 @@ HasSummary returns a boolean if a field has been set.
 
 ### GetSentDateInGMT
 
-`func (o *Email) GetSentDateInGMT() int64`
+`func (o *Email) GetSentDateInGMT() string`
 
 GetSentDateInGMT returns the SentDateInGMT field if non-nil, zero value otherwise.
 
 ### GetSentDateInGMTOk
 
-`func (o *Email) GetSentDateInGMTOk() (*int64, bool)`
+`func (o *Email) GetSentDateInGMTOk() (*string, bool)`
 
 GetSentDateInGMTOk returns a tuple with the SentDateInGMT field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSentDateInGMT
 
-`func (o *Email) SetSentDateInGMT(v int64)`
+`func (o *Email) SetSentDateInGMT(v string)`
 
 SetSentDateInGMT sets SentDateInGMT field to given value.
 
@@ -471,20 +471,20 @@ HasSender returns a boolean if a field has been set.
 
 ### GetReceivedTime
 
-`func (o *Email) GetReceivedTime() int64`
+`func (o *Email) GetReceivedTime() string`
 
 GetReceivedTime returns the ReceivedTime field if non-nil, zero value otherwise.
 
 ### GetReceivedTimeOk
 
-`func (o *Email) GetReceivedTimeOk() (*int64, bool)`
+`func (o *Email) GetReceivedTimeOk() (*string, bool)`
 
 GetReceivedTimeOk returns a tuple with the ReceivedTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReceivedTime
 
-`func (o *Email) SetReceivedTime(v int64)`
+`func (o *Email) SetReceivedTime(v string)`
 
 SetReceivedTime sets ReceivedTime field to given value.
 

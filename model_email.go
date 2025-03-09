@@ -23,7 +23,7 @@ type Email struct {
 	// A brief summary of the email.
 	Summary *string `json:"summary,omitempty"`
 	// The sent date of the email in GMT, represented as a Unix timestamp in milliseconds.
-	SentDateInGMT *int64 `json:"sentDateInGMT,omitempty"`
+	SentDateInGMT *string `json:"sentDateInGMT,omitempty"`
 	// The type of calendar associated with the email.
 	CalendarType *int32 `json:"calendarType,omitempty"`
 	// The subject of the email.
@@ -55,7 +55,7 @@ type Email struct {
 	// The sender's display name.
 	Sender *string `json:"sender,omitempty"`
 	// The received time of the email, represented as a Unix timestamp in milliseconds.
-	ReceivedTime *int64 `json:"receivedTime,omitempty"`
+	ReceivedTime *string `json:"receivedTime,omitempty"`
 	// The sender's email address.
 	FromAddress *string `json:"fromAddress,omitempty"`
 	// The status of the email (e.g., 1 for read, 0 for unread).
@@ -112,9 +112,9 @@ func (o *Email) SetSummary(v string) {
 }
 
 // GetSentDateInGMT returns the SentDateInGMT field value if set, zero value otherwise.
-func (o *Email) GetSentDateInGMT() int64 {
+func (o *Email) GetSentDateInGMT() string {
 	if o == nil || IsNil(o.SentDateInGMT) {
-		var ret int64
+		var ret string
 		return ret
 	}
 	return *o.SentDateInGMT
@@ -122,7 +122,7 @@ func (o *Email) GetSentDateInGMT() int64 {
 
 // GetSentDateInGMTOk returns a tuple with the SentDateInGMT field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Email) GetSentDateInGMTOk() (*int64, bool) {
+func (o *Email) GetSentDateInGMTOk() (*string, bool) {
 	if o == nil || IsNil(o.SentDateInGMT) {
 		return nil, false
 	}
@@ -138,8 +138,8 @@ func (o *Email) HasSentDateInGMT() bool {
 	return false
 }
 
-// SetSentDateInGMT gets a reference to the given int64 and assigns it to the SentDateInGMT field.
-func (o *Email) SetSentDateInGMT(v int64) {
+// SetSentDateInGMT gets a reference to the given string and assigns it to the SentDateInGMT field.
+func (o *Email) SetSentDateInGMT(v string) {
 	o.SentDateInGMT = &v
 }
 
@@ -624,9 +624,9 @@ func (o *Email) SetSender(v string) {
 }
 
 // GetReceivedTime returns the ReceivedTime field value if set, zero value otherwise.
-func (o *Email) GetReceivedTime() int64 {
+func (o *Email) GetReceivedTime() string {
 	if o == nil || IsNil(o.ReceivedTime) {
-		var ret int64
+		var ret string
 		return ret
 	}
 	return *o.ReceivedTime
@@ -634,7 +634,7 @@ func (o *Email) GetReceivedTime() int64 {
 
 // GetReceivedTimeOk returns a tuple with the ReceivedTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Email) GetReceivedTimeOk() (*int64, bool) {
+func (o *Email) GetReceivedTimeOk() (*string, bool) {
 	if o == nil || IsNil(o.ReceivedTime) {
 		return nil, false
 	}
@@ -650,8 +650,8 @@ func (o *Email) HasReceivedTime() bool {
 	return false
 }
 
-// SetReceivedTime gets a reference to the given int64 and assigns it to the ReceivedTime field.
-func (o *Email) SetReceivedTime(v int64) {
+// SetReceivedTime gets a reference to the given string and assigns it to the ReceivedTime field.
+func (o *Email) SetReceivedTime(v string) {
 	o.ReceivedTime = &v
 }
 

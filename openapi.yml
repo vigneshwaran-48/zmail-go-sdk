@@ -678,8 +678,7 @@ components:
           type: string
           description: A brief summary of the email.
         sentDateInGMT:
-          type: integer
-          format: int64
+          type: string
           description: The sent date of the email in GMT, represented as a Unix timestamp in milliseconds.
         calendarType:
           type: integer
@@ -727,8 +726,7 @@ components:
           type: string
           description: The sender's display name.
         receivedTime:
-          type: integer
-          format: int64
+          type: string
           description: The received time of the email, represented as a Unix timestamp in milliseconds.
         fromAddress:
           type: string

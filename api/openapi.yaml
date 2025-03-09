@@ -784,8 +784,8 @@ components:
       example:
         data:
         - summary: summary
-          sentDateInGMT: 0
-          calendarType: 6
+          sentDateInGMT: sentDateInGMT
+          calendarType: 0
           subject: subject
           messageId: messageId
           threadCount: threadCount
@@ -800,12 +800,12 @@ components:
           hasAttachment: hasAttachment
           size: size
           sender: sender
-          receivedTime: 1
+          receivedTime: receivedTime
           fromAddress: fromAddress
           status: status
         - summary: summary
-          sentDateInGMT: 0
-          calendarType: 6
+          sentDateInGMT: sentDateInGMT
+          calendarType: 0
           subject: subject
           messageId: messageId
           threadCount: threadCount
@@ -820,7 +820,7 @@ components:
           hasAttachment: hasAttachment
           size: size
           sender: sender
-          receivedTime: 1
+          receivedTime: receivedTime
           fromAddress: fromAddress
           status: status
         status:
@@ -1132,8 +1132,8 @@ components:
     Email:
       example:
         summary: summary
-        sentDateInGMT: 0
-        calendarType: 6
+        sentDateInGMT: sentDateInGMT
+        calendarType: 0
         subject: subject
         messageId: messageId
         threadCount: threadCount
@@ -1148,7 +1148,7 @@ components:
         hasAttachment: hasAttachment
         size: size
         sender: sender
-        receivedTime: 1
+        receivedTime: receivedTime
         fromAddress: fromAddress
         status: status
       properties:
@@ -1158,8 +1158,7 @@ components:
         sentDateInGMT:
           description: "The sent date of the email in GMT, represented as a Unix timestamp\
             \ in milliseconds."
-          format: int64
-          type: integer
+          type: string
         calendarType:
           description: The type of calendar associated with the email.
           type: integer
@@ -1210,8 +1209,7 @@ components:
         receivedTime:
           description: "The received time of the email, represented as a Unix timestamp\
             \ in milliseconds."
-          format: int64
-          type: integer
+          type: string
         fromAddress:
           description: The sender's email address.
           type: string
