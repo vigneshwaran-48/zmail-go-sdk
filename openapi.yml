@@ -426,6 +426,232 @@ paths:
           description: Page not found
         '500':
           description: Internal Error
+  /api/accounts/{accountId}/messages/search:
+    get:
+      tags:
+        - email
+      summary: Searches emails
+      description: The API retrieves the list of emails, based on the custom search terms and parameters.
+      operationId: searchEmails
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: searchKey
+          in: query
+          description: Specifies the search criteria. Ensure that the searchKey is constructed using the search syntax defined in this help page. For example:- To search for new emails, provide the searchKey as newMails.
+          required: true
+          schema:
+            type: string
+        - name: receivedTime
+          in: query
+          description: Specifies the time before which emails were received. It allows users to filter emails based on their received timestamp. Format:- Unix timestamp in milliseconds. Example:- 1609459200000. By default, the API retrieves emails received before 2 minutes from the current time unless a specific timestamp is provided.
+          schema:
+            type: integer
+            format: int64
+        - name: start
+          in: query
+          description: Specifies the starting sequence number of the emails to be retrieved.
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: limit
+          in: query
+          description: Specifies the number of emails to be retrieved from the start value mentioned. Allowed values:- Min. value:- 1 and max. value:- 200.
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            minimum: 1
+            maximum: 200
+        - name: includeto
+          in: query
+          description: Specifies whether To details need to be included or not on the list of emails retrieved.
+          schema:
+            type: boolean
+            description: true to include To details, false to not include To details.
+            default: false
+      responses:
+        "200":
+          description: Fetched emails successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailsResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/header:
+    get:
+      tags:
+        - email
+      summary: Retrives message headers
+      description: The API retrieves the internet message headers of a particular email, based on the message ID passed as the request parameter. 
+      operationId: getMessageHeader
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be used.
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: This key is used to identify the message to be used.
+          schema:
+            type: string
+        - name: raw
+          in: query
+          schema:
+            type: boolean
+            description: This parameter is used to specify the response format of message headers.
+            default: true
+      responses:
+        "200":
+          description: Fetched email header successfully
+          content:
+            application/json:
+              schema:
+                anyOf:
+                 - $ref: '#/components/schemas/EmailHeaderResponse'
+                 - $ref: '#/components/schemas/EmailHeaderRawResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/content:
+    get:
+      tags:
+        - email
+      summary: Retrives the content of email
+      description: This API is used to retrieve the message contents of an email based on the message ID passed in the request URL. In case, you retrieve an email from a thread, you can add the includeBlockContent parameter to get the reply email and the parent email separately. If block content is available but the includeBlockContent parameter is not passed, then the original email content can only be retrieved.
+      operationId: getMessageContent
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be used.
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: This key is used to identify the message to be used.
+          schema:
+            type: string
+        - name: includeBlockContent
+          in: query
+          schema:
+            type: boolean
+            description: This parameter specifies whether to include the block quote content in an email along with the email content.
+            default: false
+      responses:
+        "200":
+          description: Fetched email content successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailContentResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+  /api/accounts/{accountId}/messages/{messageId}/originalmessage:
+    get:
+      tags:
+        - email
+      summary: Retrives the original content of email
+      description: This API retrieves the MIME representation of an email message.
+      operationId: getOriginalMessage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: This key is used to identify the message to be used.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Fetched email original content successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailContentResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/details:
+    get:
+      tags:
+        - email
+      summary: Retrives the message details
+      description: The API retrieves the metadata information of an email based on the message ID passed in the request URL.
+      operationId: getMessageDetails
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be used.
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: This key is used to identify the message to be used.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Fetched email details successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
 components:
   schemas:
     NoDataResponse:
@@ -479,6 +705,48 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Email'
+            
+    EmailHeaderResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/EmailHeaderDetails'
+              
+    EmailHeaderRawResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          type: object
+          properties:
+            headerContent:
+              type: string
+            messageId:
+              type: string
+              
+    EmailContentResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          type: object
+          properties:
+            messageId:
+              type: string
+            content:
+              type: string
+              
+    EmailResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/Email'
 
     Status:
       type: object
@@ -734,6 +1002,64 @@ components:
         status:
           type: string
           description: The status of the email (e.g., 1 for read, 0 for unread).
+          
+    EmailHeaderDetails:
+      type: object
+      properties:
+        headerContent:
+          type: object
+          properties:
+            Importance:
+              type: array
+              items:
+                type: string
+            X-Mailer:
+              type: array
+              items:
+                type: string
+            X-Zoho-Virus-Status:
+              type: array
+              items:
+                type: string
+            Received:
+              type: array
+              items:
+                type: string
+            User-Agent:
+              type: array
+              items:
+                type: string
+            From:
+              type: array
+              items:
+                type: string
+            To:
+              type: array
+              items:
+                type: string
+            Message-Id:
+              type: array
+              items:
+                type: string
+            Date:
+              type: array
+              items:
+                type: string
+            Subject:
+              type: array
+              items:
+                type: string
+            MIME-Version:
+              type: array
+              items:
+                type: string
+            Content-Type:
+              type: array
+              items:
+                type: string
+        messageId:
+          type: integer
+          format: int64
   securitySchemes:
     zohomail_auth:
       type: oauth2

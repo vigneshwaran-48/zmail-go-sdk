@@ -507,6 +507,297 @@ paths:
       summary: Retrieves emails
       tags:
       - email
+  /api/accounts/{accountId}/messages/search:
+    get:
+      description: "The API retrieves the list of emails, based on the custom search\
+        \ terms and parameters."
+      operationId: searchEmails
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Specifies the search criteria. Ensure that the searchKey is\
+          \ constructed using the search syntax defined in this help page. For example:-\
+          \ To search for new emails, provide the searchKey as newMails."
+        explode: true
+        in: query
+        name: searchKey
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: "Specifies the time before which emails were received. It allows\
+          \ users to filter emails based on their received timestamp. Format:- Unix\
+          \ timestamp in milliseconds. Example:- 1609459200000. By default, the API\
+          \ retrieves emails received before 2 minutes from the current time unless\
+          \ a specific timestamp is provided."
+        explode: true
+        in: query
+        name: receivedTime
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - description: Specifies the starting sequence number of the emails to be retrieved.
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          default: 1
+          format: int32
+          type: integer
+        style: form
+      - description: Specifies the number of emails to be retrieved from the start
+          value mentioned. Allowed values:- Min. value:- 1 and max. value:- 200.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          format: int32
+          maximum: 200
+          minimum: 1
+          type: integer
+        style: form
+      - description: Specifies whether To details need to be included or not on the
+          list of emails retrieved.
+        explode: true
+        in: query
+        name: includeto
+        required: false
+        schema:
+          default: false
+          description: "true to include To details, false to not include To details."
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailsResponse'
+          description: Fetched emails successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Searches emails
+      tags:
+      - email
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/header:
+    get:
+      description: "The API retrieves the internet message headers of a particular\
+        \ email, based on the message ID passed as the request parameter."
+      operationId: getMessageHeader
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be used.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the message to be used.
+        explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: raw
+        required: false
+        schema:
+          default: true
+          description: This parameter is used to specify the response format of message
+            headers.
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getMessageHeader_200_response'
+          description: Fetched email header successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Retrives message headers
+      tags:
+      - email
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/content:
+    get:
+      description: "This API is used to retrieve the message contents of an email\
+        \ based on the message ID passed in the request URL. In case, you retrieve\
+        \ an email from a thread, you can add the includeBlockContent parameter to\
+        \ get the reply email and the parent email separately. If block content is\
+        \ available but the includeBlockContent parameter is not passed, then the\
+        \ original email content can only be retrieved."
+      operationId: getMessageContent
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be used.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the message to be used.
+        explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: includeBlockContent
+        required: false
+        schema:
+          default: false
+          description: This parameter specifies whether to include the block quote
+            content in an email along with the email content.
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailContentResponse'
+          description: Fetched email content successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Retrives the content of email
+      tags:
+      - email
+  /api/accounts/{accountId}/messages/{messageId}/originalmessage:
+    get:
+      description: This API retrieves the MIME representation of an email message.
+      operationId: getOriginalMessage
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the message to be used.
+        explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailContentResponse'
+          description: Fetched email original content successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Retrives the original content of email
+      tags:
+      - email
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/details:
+    get:
+      description: The API retrieves the metadata information of an email based on
+        the message ID passed in the request URL.
+      operationId: getMessageDetails
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be used.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the message to be used.
+        explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailResponse'
+          description: Fetched email details successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Retrives the message details
+      tags:
+      - email
 components:
   schemas:
     NoDataResponse:
@@ -833,6 +1124,109 @@ components:
           items:
             $ref: '#/components/schemas/Email'
           type: array
+      type: object
+    EmailHeaderResponse:
+      example:
+        data:
+          headerContent:
+            Importance:
+            - Importance
+            - Importance
+            X-Mailer:
+            - X-Mailer
+            - X-Mailer
+            X-Zoho-Virus-Status:
+            - X-Zoho-Virus-Status
+            - X-Zoho-Virus-Status
+            Received:
+            - Received
+            - Received
+            User-Agent:
+            - User-Agent
+            - User-Agent
+            From:
+            - From
+            - From
+            To:
+            - To
+            - To
+            Message-Id:
+            - Message-Id
+            - Message-Id
+            Date:
+            - Date
+            - Date
+            Subject:
+            - Subject
+            - Subject
+            MIME-Version:
+            - MIME-Version
+            - MIME-Version
+            Content-Type:
+            - Content-Type
+            - Content-Type
+          messageId: 0
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/EmailHeaderDetails'
+      type: object
+    EmailHeaderRawResponse:
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/EmailHeaderRawResponse_data'
+      type: object
+    EmailContentResponse:
+      example:
+        data:
+          messageId: messageId
+          content: content
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/EmailContentResponse_data'
+      type: object
+    EmailResponse:
+      example:
+        data:
+          summary: summary
+          sentDateInGMT: sentDateInGMT
+          calendarType: 0
+          subject: subject
+          messageId: messageId
+          threadCount: threadCount
+          flagid: flagid
+          status2: status2
+          priority: priority
+          hasInline: hasInline
+          toAddress: toAddress
+          folderId: folderId
+          ccAddress: ccAddress
+          threadId: threadId
+          hasAttachment: hasAttachment
+          size: size
+          sender: sender
+          receivedTime: receivedTime
+          fromAddress: fromAddress
+          status: status
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/Email'
       type: object
     Status:
       example:
@@ -1217,6 +1611,53 @@ components:
           description: "The status of the email (e.g., 1 for read, 0 for unread)."
           type: string
       type: object
+    EmailHeaderDetails:
+      example:
+        headerContent:
+          Importance:
+          - Importance
+          - Importance
+          X-Mailer:
+          - X-Mailer
+          - X-Mailer
+          X-Zoho-Virus-Status:
+          - X-Zoho-Virus-Status
+          - X-Zoho-Virus-Status
+          Received:
+          - Received
+          - Received
+          User-Agent:
+          - User-Agent
+          - User-Agent
+          From:
+          - From
+          - From
+          To:
+          - To
+          - To
+          Message-Id:
+          - Message-Id
+          - Message-Id
+          Date:
+          - Date
+          - Date
+          Subject:
+          - Subject
+          - Subject
+          MIME-Version:
+          - MIME-Version
+          - MIME-Version
+          Content-Type:
+          - Content-Type
+          - Content-Type
+        messageId: 0
+      properties:
+        headerContent:
+          $ref: '#/components/schemas/EmailHeaderDetails_headerContent'
+        messageId:
+          format: int64
+          type: integer
+      type: object
     createFolder_request:
       properties:
         folderName:
@@ -1234,6 +1675,115 @@ components:
           type: string
       required:
       - folderName
+      type: object
+    getMessageHeader_200_response:
+      anyOf:
+      - $ref: '#/components/schemas/EmailHeaderResponse'
+      - $ref: '#/components/schemas/EmailHeaderRawResponse'
+    EmailHeaderRawResponse_data:
+      properties:
+        headerContent:
+          type: string
+        messageId:
+          type: string
+      type: object
+    EmailContentResponse_data:
+      example:
+        messageId: messageId
+        content: content
+      properties:
+        messageId:
+          type: string
+        content:
+          type: string
+      type: object
+    EmailHeaderDetails_headerContent:
+      example:
+        Importance:
+        - Importance
+        - Importance
+        X-Mailer:
+        - X-Mailer
+        - X-Mailer
+        X-Zoho-Virus-Status:
+        - X-Zoho-Virus-Status
+        - X-Zoho-Virus-Status
+        Received:
+        - Received
+        - Received
+        User-Agent:
+        - User-Agent
+        - User-Agent
+        From:
+        - From
+        - From
+        To:
+        - To
+        - To
+        Message-Id:
+        - Message-Id
+        - Message-Id
+        Date:
+        - Date
+        - Date
+        Subject:
+        - Subject
+        - Subject
+        MIME-Version:
+        - MIME-Version
+        - MIME-Version
+        Content-Type:
+        - Content-Type
+        - Content-Type
+      properties:
+        Importance:
+          items:
+            type: string
+          type: array
+        X-Mailer:
+          items:
+            type: string
+          type: array
+        X-Zoho-Virus-Status:
+          items:
+            type: string
+          type: array
+        Received:
+          items:
+            type: string
+          type: array
+        User-Agent:
+          items:
+            type: string
+          type: array
+        From:
+          items:
+            type: string
+          type: array
+        To:
+          items:
+            type: string
+          type: array
+        Message-Id:
+          items:
+            type: string
+          type: array
+        Date:
+          items:
+            type: string
+          type: array
+        Subject:
+          items:
+            type: string
+          type: array
+        MIME-Version:
+          items:
+            type: string
+          type: array
+        Content-Type:
+          items:
+            type: string
+          type: array
       type: object
   securitySchemes:
     zohomail_auth:
