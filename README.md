@@ -81,6 +81,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AccountsAPI* | [**GetAccountDetails**](docs/AccountsAPI.md#getaccountdetails) | **Get** /api/accounts/{accountId} | Get Specific Account Details
 *AccountsAPI* | [**Getmailaccounts**](docs/AccountsAPI.md#getmailaccounts) | **Get** /api/accounts | Get all accounts
+*EmailAPI* | [**DeleteEmail**](docs/EmailAPI.md#deleteemail) | **Delete** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId} | Delete a email
 *EmailAPI* | [**GetMessageAttachmentContent**](docs/EmailAPI.md#getmessageattachmentcontent) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachments/{attachmentId} | Retrives the message attachment content
 *EmailAPI* | [**GetMessageAttachmentInfo**](docs/EmailAPI.md#getmessageattachmentinfo) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachmentinfo | Retrives the message attachment details
 *EmailAPI* | [**GetMessageContent**](docs/EmailAPI.md#getmessagecontent) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/content | Retrives the content of email
@@ -89,6 +90,10 @@ Class | Method | HTTP request | Description
 *EmailAPI* | [**GetOriginalMessage**](docs/EmailAPI.md#getoriginalmessage) | **Get** /api/accounts/{accountId}/messages/{messageId}/originalmessage | Retrives the original content of email
 *EmailAPI* | [**ListEmails**](docs/EmailAPI.md#listemails) | **Get** /api/accounts/{accountId}/messages/view | Retrieves emails
 *EmailAPI* | [**SearchEmails**](docs/EmailAPI.md#searchemails) | **Get** /api/accounts/{accountId}/messages/search | Searches emails
+*EmailAPI* | [**SendEmail**](docs/EmailAPI.md#sendemail) | **Post** /api/accounts/{accountId}/messages | Send mail/ Save draft or template
+*EmailAPI* | [**SendReplyEmail**](docs/EmailAPI.md#sendreplyemail) | **Post** /api/accounts/{accountId}/messages/{messageId} | Send reply to email
+*EmailAPI* | [**UpdateMessage**](docs/EmailAPI.md#updatemessage) | **Put** /api/accounts/{accountId}/updatemessage | Update messages
+*EmailAPI* | [**UploadAttachments**](docs/EmailAPI.md#uploadattachments) | **Post** /api/accounts/{accountId}/messages/attachments | Upload attachment
 *FoldersAPI* | [**CreateFolder**](docs/FoldersAPI.md#createfolder) | **Post** /api/accounts/{accountId}/folders | Create a New Folder
 *FoldersAPI* | [**DeleteFolder**](docs/FoldersAPI.md#deletefolder) | **Delete** /api/accounts/{accountId}/folders/{folderId} | Delete a folder
 *FoldersAPI* | [**GetAllFolders**](docs/FoldersAPI.md#getallfolders) | **Get** /api/accounts/{accountId}/folders | Get all folders of the account
@@ -105,9 +110,11 @@ Class | Method | HTTP request | Description
  - [Attachment](docs/Attachment.md)
  - [AttachmentInfoResponse](docs/AttachmentInfoResponse.md)
  - [AttachmentInfoResponseData](docs/AttachmentInfoResponseData.md)
+ - [AttachmentsResponse](docs/AttachmentsResponse.md)
  - [CreateFolderRequest](docs/CreateFolderRequest.md)
  - [Email](docs/Email.md)
  - [EmailAddress](docs/EmailAddress.md)
+ - [EmailAttachment](docs/EmailAttachment.md)
  - [EmailContentResponse](docs/EmailContentResponse.md)
  - [EmailContentResponseData](docs/EmailContentResponseData.md)
  - [EmailHeaderDetails](docs/EmailHeaderDetails.md)
@@ -124,7 +131,15 @@ Class | Method | HTTP request | Description
  - [FoldersResponse](docs/FoldersResponse.md)
  - [GetMessageHeader200Response](docs/GetMessageHeader200Response.md)
  - [MailForward](docs/MailForward.md)
+ - [MessageDeleteResponse](docs/MessageDeleteResponse.md)
+ - [MessageDeleteResponseData](docs/MessageDeleteResponseData.md)
+ - [MessageFlag](docs/MessageFlag.md)
+ - [MessageUpdateMode](docs/MessageUpdateMode.md)
+ - [MessageUpdatePayload](docs/MessageUpdatePayload.md)
  - [NoDataResponse](docs/NoDataResponse.md)
+ - [SendEmailMode](docs/SendEmailMode.md)
+ - [SendEmailRequest](docs/SendEmailRequest.md)
+ - [SendEmailRequestAttachmentsInner](docs/SendEmailRequestAttachmentsInner.md)
  - [SendMailDetails](docs/SendMailDetails.md)
  - [Status](docs/Status.md)
  - [VacationResponse](docs/VacationResponse.md)
@@ -145,6 +160,9 @@ Authentication schemes defined for the API:
  - **ZohoMail.accounts.READ**: READ access to accounts.
  - **ZohoMail.folders.ALL**: Full access to folders.
  - **ZohoMail.folders.CREATE**: Create a folder.
+ - **ZohoMail.messages.CREATE**: Send email
+ - **ZohoMail.messages.ALL**: Full access to messages
+ - **ZohoMail.messages.READ**: Read access to messages
 
 Example
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Attachments** | Pointer to [**[]Attachment**](Attachment.md) |  | [optional] 
+**Attachments** | Pointer to [**[]EmailAttachment**](EmailAttachment.md) |  | [optional] 
 **MessageId** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetAttachments
 
-`func (o *AttachmentInfoResponseData) GetAttachments() []Attachment`
+`func (o *AttachmentInfoResponseData) GetAttachments() []EmailAttachment`
 
 GetAttachments returns the Attachments field if non-nil, zero value otherwise.
 
 ### GetAttachmentsOk
 
-`func (o *AttachmentInfoResponseData) GetAttachmentsOk() (*[]Attachment, bool)`
+`func (o *AttachmentInfoResponseData) GetAttachmentsOk() (*[]EmailAttachment, bool)`
 
 GetAttachmentsOk returns a tuple with the Attachments field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAttachments
 
-`func (o *AttachmentInfoResponseData) SetAttachments(v []Attachment)`
+`func (o *AttachmentInfoResponseData) SetAttachments(v []EmailAttachment)`
 
 SetAttachments sets Attachments field to given value.
 

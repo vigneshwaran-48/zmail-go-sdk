@@ -20,12 +20,13 @@ var _ MappedNullable = &Attachment{}
 
 // Attachment struct for Attachment
 type Attachment struct {
-	// Size of the attachment in bytes.
-	AttachmentSize *int32 `json:"attachmentSize,omitempty"`
+	// store name.
+	StoreName *string `json:"storeName,omitempty"`
 	// Name of the attachment file.
 	AttachmentName *string `json:"attachmentName,omitempty"`
-	// Unique identifier for the attachment.
-	AttachmentId *string `json:"attachmentId,omitempty"`
+	// Attachment Path
+	AttachmentPath *string `json:"attachmentPath,omitempty"`
+	Url *string `json:"url,omitempty"`
 }
 
 // NewAttachment instantiates a new Attachment object
@@ -45,36 +46,36 @@ func NewAttachmentWithDefaults() *Attachment {
 	return &this
 }
 
-// GetAttachmentSize returns the AttachmentSize field value if set, zero value otherwise.
-func (o *Attachment) GetAttachmentSize() int32 {
-	if o == nil || IsNil(o.AttachmentSize) {
-		var ret int32
+// GetStoreName returns the StoreName field value if set, zero value otherwise.
+func (o *Attachment) GetStoreName() string {
+	if o == nil || IsNil(o.StoreName) {
+		var ret string
 		return ret
 	}
-	return *o.AttachmentSize
+	return *o.StoreName
 }
 
-// GetAttachmentSizeOk returns a tuple with the AttachmentSize field value if set, nil otherwise
+// GetStoreNameOk returns a tuple with the StoreName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Attachment) GetAttachmentSizeOk() (*int32, bool) {
-	if o == nil || IsNil(o.AttachmentSize) {
+func (o *Attachment) GetStoreNameOk() (*string, bool) {
+	if o == nil || IsNil(o.StoreName) {
 		return nil, false
 	}
-	return o.AttachmentSize, true
+	return o.StoreName, true
 }
 
-// HasAttachmentSize returns a boolean if a field has been set.
-func (o *Attachment) HasAttachmentSize() bool {
-	if o != nil && !IsNil(o.AttachmentSize) {
+// HasStoreName returns a boolean if a field has been set.
+func (o *Attachment) HasStoreName() bool {
+	if o != nil && !IsNil(o.StoreName) {
 		return true
 	}
 
 	return false
 }
 
-// SetAttachmentSize gets a reference to the given int32 and assigns it to the AttachmentSize field.
-func (o *Attachment) SetAttachmentSize(v int32) {
-	o.AttachmentSize = &v
+// SetStoreName gets a reference to the given string and assigns it to the StoreName field.
+func (o *Attachment) SetStoreName(v string) {
+	o.StoreName = &v
 }
 
 // GetAttachmentName returns the AttachmentName field value if set, zero value otherwise.
@@ -109,36 +110,68 @@ func (o *Attachment) SetAttachmentName(v string) {
 	o.AttachmentName = &v
 }
 
-// GetAttachmentId returns the AttachmentId field value if set, zero value otherwise.
-func (o *Attachment) GetAttachmentId() string {
-	if o == nil || IsNil(o.AttachmentId) {
+// GetAttachmentPath returns the AttachmentPath field value if set, zero value otherwise.
+func (o *Attachment) GetAttachmentPath() string {
+	if o == nil || IsNil(o.AttachmentPath) {
 		var ret string
 		return ret
 	}
-	return *o.AttachmentId
+	return *o.AttachmentPath
 }
 
-// GetAttachmentIdOk returns a tuple with the AttachmentId field value if set, nil otherwise
+// GetAttachmentPathOk returns a tuple with the AttachmentPath field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Attachment) GetAttachmentIdOk() (*string, bool) {
-	if o == nil || IsNil(o.AttachmentId) {
+func (o *Attachment) GetAttachmentPathOk() (*string, bool) {
+	if o == nil || IsNil(o.AttachmentPath) {
 		return nil, false
 	}
-	return o.AttachmentId, true
+	return o.AttachmentPath, true
 }
 
-// HasAttachmentId returns a boolean if a field has been set.
-func (o *Attachment) HasAttachmentId() bool {
-	if o != nil && !IsNil(o.AttachmentId) {
+// HasAttachmentPath returns a boolean if a field has been set.
+func (o *Attachment) HasAttachmentPath() bool {
+	if o != nil && !IsNil(o.AttachmentPath) {
 		return true
 	}
 
 	return false
 }
 
-// SetAttachmentId gets a reference to the given string and assigns it to the AttachmentId field.
-func (o *Attachment) SetAttachmentId(v string) {
-	o.AttachmentId = &v
+// SetAttachmentPath gets a reference to the given string and assigns it to the AttachmentPath field.
+func (o *Attachment) SetAttachmentPath(v string) {
+	o.AttachmentPath = &v
+}
+
+// GetUrl returns the Url field value if set, zero value otherwise.
+func (o *Attachment) GetUrl() string {
+	if o == nil || IsNil(o.Url) {
+		var ret string
+		return ret
+	}
+	return *o.Url
+}
+
+// GetUrlOk returns a tuple with the Url field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Attachment) GetUrlOk() (*string, bool) {
+	if o == nil || IsNil(o.Url) {
+		return nil, false
+	}
+	return o.Url, true
+}
+
+// HasUrl returns a boolean if a field has been set.
+func (o *Attachment) HasUrl() bool {
+	if o != nil && !IsNil(o.Url) {
+		return true
+	}
+
+	return false
+}
+
+// SetUrl gets a reference to the given string and assigns it to the Url field.
+func (o *Attachment) SetUrl(v string) {
+	o.Url = &v
 }
 
 func (o Attachment) MarshalJSON() ([]byte, error) {
@@ -151,14 +184,17 @@ func (o Attachment) MarshalJSON() ([]byte, error) {
 
 func (o Attachment) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.AttachmentSize) {
-		toSerialize["attachmentSize"] = o.AttachmentSize
+	if !IsNil(o.StoreName) {
+		toSerialize["storeName"] = o.StoreName
 	}
 	if !IsNil(o.AttachmentName) {
 		toSerialize["attachmentName"] = o.AttachmentName
 	}
-	if !IsNil(o.AttachmentId) {
-		toSerialize["attachmentId"] = o.AttachmentId
+	if !IsNil(o.AttachmentPath) {
+		toSerialize["attachmentPath"] = o.AttachmentPath
+	}
+	if !IsNil(o.Url) {
+		toSerialize["url"] = o.Url
 	}
 	return toSerialize, nil
 }

@@ -906,6 +906,234 @@ paths:
       summary: Retrives the message attachment content
       tags:
       - email
+  /api/accounts/{accountId}/updatemessage:
+    put:
+      description: Perform different message update actions with the mode field
+      operationId: updateMessage
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageUpdatePayload'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+          description: Updated message successfully.
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Update messages
+      tags:
+      - email
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}:
+    delete:
+      description: This API is used to delete an email.
+      operationId: deleteEmail
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the folder to be used.
+        explode: false
+        in: path
+        name: folderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the message to be used.
+        explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: expunge
+        required: false
+        schema:
+          default: false
+          description: This parameter specifies whether the email should be deleted
+            permanently without moving it to the trash folder.
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageDeleteResponse'
+          description: Fetched email details successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Delete a email
+      tags:
+      - email
+  /api/accounts/{accountId}/messages:
+    post:
+      description: This API is used to send an email.
+      operationId: sendEmail
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+          description: Sent email successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Send mail/ Save draft or template
+      tags:
+      - email
+  /api/accounts/{accountId}/messages/attachments:
+    post:
+      description: This API allows you to upload attachments before using the file
+        in an email.
+      operationId: uploadAttachments
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "To upload multiple attachments, this multipart value is mandatory."
+        explode: true
+        in: query
+        name: uploadType
+        required: false
+        schema:
+          enum:
+          - multipart
+          type: string
+        style: form
+      - description: Specifies whether you want to attach an inline image or not.
+        explode: true
+        in: query
+        name: isInline
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/uploadAttachments_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentsResponse'
+          description: Uploaded attachment successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Upload attachment
+      tags:
+      - email
+  /api/accounts/{accountId}/messages/{messageId}:
+    post:
+      description: This API is used to send a reply to a received email.
+      operationId: sendReplyEmail
+      parameters:
+      - description: This key is used to identify the account from which the folders
+          have to be fetched. It is generated during account addition.
+        explode: false
+        in: path
+        name: accountId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: This key is used to identify the message to be used.
+        explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+          description: Replied email successfully
+        "400":
+          description: Invalid input passed
+        "404":
+          description: Page not found
+        "500":
+          description: Internal Error
+      summary: Send reply to email
+      tags:
+      - email
 components:
   schemas:
     NoDataResponse:
@@ -1356,6 +1584,41 @@ components:
         data:
           $ref: '#/components/schemas/AttachmentInfoResponse_data'
       type: object
+    MessageDeleteResponse:
+      example:
+        data:
+          cId: cId
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          $ref: '#/components/schemas/MessageDeleteResponse_data'
+      type: object
+    AttachmentsResponse:
+      example:
+        data:
+        - storeName: storeName
+          attachmentName: attachmentName
+          attachmentPath: attachmentPath
+          url: url
+        - storeName: storeName
+          attachmentName: attachmentName
+          attachmentPath: attachmentPath
+          url: url
+        status:
+          code: 200
+          description: success
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          items:
+            $ref: '#/components/schemas/Attachment'
+          type: array
+      type: object
     Status:
       example:
         code: 200
@@ -1786,7 +2049,7 @@ components:
           format: int64
           type: integer
       type: object
-    Attachment:
+    EmailAttachment:
       example:
         attachmentSize: 0
         attachmentName: attachmentName
@@ -1800,6 +2063,229 @@ components:
           type: string
         attachmentId:
           description: Unique identifier for the attachment.
+          type: string
+      type: object
+    MessageUpdateMode:
+      enum:
+      - markAsRead
+      - markAsUnread
+      - moveMessage
+      - setFlag
+      - applyLabel
+      - removeLabel
+      - removeAllLabels
+      - archiveMails
+      - unArchiveMails
+      - moveToSpam
+      - markNotSpam
+      type: string
+    MessageFlag:
+      enum:
+      - info
+      - important
+      - followup
+      - flag_not_set
+      type: string
+    MessageUpdatePayload:
+      example:
+        mode: markAsRead
+        threadId:
+        - threadId
+        - threadId
+        isArchive: false
+        labelId:
+        - labelId
+        - labelId
+        isFolderSpecific: false
+        messageId:
+        - messageId
+        - messageId
+        flagid: info
+        destfolderId: destfolderId
+        folderId: folderId
+      properties:
+        mode:
+          $ref: '#/components/schemas/MessageUpdateMode'
+        messageId:
+          items:
+            type: string
+          type: array
+        threadId:
+          items:
+            type: string
+          type: array
+        isFolderSpecific:
+          default: false
+          type: boolean
+        folderId:
+          type: string
+        labelId:
+          items:
+            type: string
+          type: array
+        isArchive:
+          default: false
+          type: boolean
+        flagid:
+          $ref: '#/components/schemas/MessageFlag'
+        destfolderId:
+          type: string
+      required:
+      - messageId
+      - mode
+      type: object
+    SendEmailMode:
+      enum:
+      - draft
+      - template
+      type: string
+    SendEmailRequest:
+      example:
+        scheduleTime: scheduleTime
+        attachments:
+        - attachmentName: attachmentName
+          storeName: storeName
+          attachmentPath: attachmentPath
+        - attachmentName: attachmentName
+          storeName: storeName
+          attachmentPath: attachmentPath
+        subject: subject
+        timeZone: timeZone
+        bccAddress: bccAddress
+        encoding: UTF-8
+        toAddress: toAddress
+        content: content
+        ccAddress: ccAddress
+        mode: draft
+        scheduleType: 0
+        askReceipt: "true"
+        action: reply
+        fromAddress: fromAddress
+        mailFormat: html
+        isSchedule: true
+      properties:
+        fromAddress:
+          description: Provide the sender's email address (associated to the authenticated
+            account). Allowed values:- Valid email address corresponding to the authenticated
+            account for the From field.
+          type: string
+        toAddress:
+          description: Provide the recipient's email address. Allowed values:- Valid
+            recipient email address for the To field.
+          type: string
+        ccAddress:
+          description: Provide the recipient's email address for the Cc field. Allowed
+            values:- Valid recipient email address for the Cc field.
+          type: string
+        bccAddress:
+          description: Provide the recipient's email address for the Bcc field. Allowed
+            values:- Valid recipient email address for the Bcc field.
+          type: string
+        subject:
+          description: Provide the subject of the email.
+          type: string
+        content:
+          description: Provide the content of the email.
+          type: string
+        mailFormat:
+          default: html
+          description: Specify the format in which the mail needs to be sent. The
+            value can be html or plaintext. The default value is html.
+          enum:
+          - html
+          - plaintext
+          type: string
+        askReceipt:
+          description: Specifies whether Read receipt from the recipient is requested
+            or not. Allowed values:- yes - Requesting a read receipt. no - Not requesting
+            a read receipt
+          enum:
+          - "true"
+          - "false"
+          type: string
+        encoding:
+          default: UTF-8
+          description: "Specifies the encoding that is to be used in the email content.\
+            \ Allowed values:- Big5, EUC-JP, EUC-KR, GB2312, ISO-2022-JP, ISO-8859-1,\
+            \ KOI8-R, Shift_JIS, US-ASCII, UTF-8, WINDOWS-1251, X-WINDOWS-ISO2022JP.\
+            \ The default value is UTF-8."
+          enum:
+          - Big5
+          - EUC-JP
+          - EUC-KR
+          - GB2312
+          - ISO-2022-JP
+          - ISO-8859-1
+          - KOI8-R
+          - Shift_JIS
+          - US-ASCII
+          - UTF-8
+          - WINDOWS-1251
+          - X-WINDOWS-ISO2022JP
+          type: string
+        isSchedule:
+          description: "Depending on whether the mail has to be scheduled or not,\
+            \ the value can be true - if the email should be scheduled. false - if\
+            \ the email should be sent immediately."
+          type: boolean
+        scheduleType:
+          description: Specifies the type of scheduling. Allowed values:- 1 - Schedules
+            email to be sent after one hour from the time of the request. 2 - Schedules
+            email to be sent after two hours from the time of the request. 3 - Schedules
+            email to be sent after four hours from the time of the request. 4 - Schedules
+            email to be sent by the morning of the next day from the time of the request.
+            5 - Schedules email to be sent by the afternoon of the next day from the
+            time of the request. 6 - Schedules email to be sent on the custom date
+            and time of your choice.
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          type: integer
+        timeZone:
+          description: Specify the timezone to schedule your email. This parameter
+            is mandatory if scheduleType is set to value 6. For example:- GMT 5.30
+            (India Standard Time - Asia/Calcutta).
+          type: string
+        scheduleTime:
+          description: Specify the date and time you want to schedule your email.
+            This parameter is mandatory if scheduleType is set to value 6. Format:-
+            MM/DD/YYYY HH:MM:SS. For example:- 09/15/2023 14:30:28
+          type: string
+        attachments:
+          items:
+            $ref: '#/components/schemas/SendEmailRequest_attachments_inner'
+          type: array
+        mode:
+          $ref: '#/components/schemas/SendEmailMode'
+        action:
+          enum:
+          - reply
+          type: string
+      required:
+      - fromAddress
+      - toAddress
+      type: object
+    Attachment:
+      example:
+        storeName: storeName
+        attachmentName: attachmentName
+        attachmentPath: attachmentPath
+        url: url
+      properties:
+        storeName:
+          description: store name.
+          type: string
+        attachmentName:
+          description: Name of the attachment file.
+          type: string
+        attachmentPath:
+          description: Attachment Path
+          type: string
+        url:
           type: string
       type: object
     createFolder_request:
@@ -1824,6 +2310,23 @@ components:
       anyOf:
       - $ref: '#/components/schemas/EmailHeaderResponse'
       - $ref: '#/components/schemas/EmailHeaderRawResponse'
+    uploadAttachments_request:
+      properties:
+        file:
+          description: The binary data of the attachment file.
+          format: binary
+          type: string
+        attach:
+          description: The binary data of the attachment file.
+          format: binary
+          type: string
+        fileName:
+          description: The name of the attachment file.
+          type: string
+        isInline:
+          description: Whether the attachment is inline.
+          type: boolean
+      type: object
     EmailHeaderRawResponse_data:
       properties:
         headerContent:
@@ -1854,9 +2357,16 @@ components:
       properties:
         attachments:
           items:
-            $ref: '#/components/schemas/Attachment'
+            $ref: '#/components/schemas/EmailAttachment'
           type: array
         messageId:
+          type: string
+      type: object
+    MessageDeleteResponse_data:
+      example:
+        cId: cId
+      properties:
+        cId:
           type: string
       type: object
     EmailHeaderDetails_headerContent:
@@ -1947,6 +2457,25 @@ components:
             type: string
           type: array
       type: object
+    SendEmailRequest_attachments_inner:
+      example:
+        attachmentName: attachmentName
+        storeName: storeName
+        attachmentPath: attachmentPath
+      properties:
+        attachmentName:
+          description: Specifies the name of the attachment. This parameter can be
+            fetched from Upload Attachments API.
+          type: string
+        attachmentPath:
+          description: Specifies the path in which the attachment is stored. This
+            parameter can be fetched from Upload Attachments API.
+          type: string
+        storeName:
+          description: Specifies the name of the store where the attachment is saved.
+            This parameter can be fetched from Upload Attachments API.
+          type: string
+      type: object
   securitySchemes:
     zohomail_auth:
       flows:
@@ -1957,5 +2486,8 @@ components:
             ZohoMail.accounts.READ: READ access to accounts.
             ZohoMail.folders.ALL: Full access to folders.
             ZohoMail.folders.CREATE: Create a folder.
+            ZohoMail.messages.CREATE: Send email
+            ZohoMail.messages.ALL: Full access to messages
+            ZohoMail.messages.READ: Read access to messages
           tokenUrl: https://accounts.zoho.com/oauth/v2/token
       type: oauth2

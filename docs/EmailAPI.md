@@ -4,6 +4,7 @@ All URIs are relative to *https://mail.zoho.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**DeleteEmail**](EmailAPI.md#DeleteEmail) | **Delete** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId} | Delete a email
 [**GetMessageAttachmentContent**](EmailAPI.md#GetMessageAttachmentContent) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachments/{attachmentId} | Retrives the message attachment content
 [**GetMessageAttachmentInfo**](EmailAPI.md#GetMessageAttachmentInfo) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/attachmentinfo | Retrives the message attachment details
 [**GetMessageContent**](EmailAPI.md#GetMessageContent) | **Get** /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/content | Retrives the content of email
@@ -12,7 +13,89 @@ Method | HTTP request | Description
 [**GetOriginalMessage**](EmailAPI.md#GetOriginalMessage) | **Get** /api/accounts/{accountId}/messages/{messageId}/originalmessage | Retrives the original content of email
 [**ListEmails**](EmailAPI.md#ListEmails) | **Get** /api/accounts/{accountId}/messages/view | Retrieves emails
 [**SearchEmails**](EmailAPI.md#SearchEmails) | **Get** /api/accounts/{accountId}/messages/search | Searches emails
+[**SendEmail**](EmailAPI.md#SendEmail) | **Post** /api/accounts/{accountId}/messages | Send mail/ Save draft or template
+[**SendReplyEmail**](EmailAPI.md#SendReplyEmail) | **Post** /api/accounts/{accountId}/messages/{messageId} | Send reply to email
+[**UpdateMessage**](EmailAPI.md#UpdateMessage) | **Put** /api/accounts/{accountId}/updatemessage | Update messages
+[**UploadAttachments**](EmailAPI.md#UploadAttachments) | **Post** /api/accounts/{accountId}/messages/attachments | Upload attachment
 
+
+
+## DeleteEmail
+
+> MessageDeleteResponse DeleteEmail(ctx, accountId, folderId, messageId).Expunge(expunge).Execute()
+
+Delete a email
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/vigneshwaran-48/zmail-go-sdk"
+)
+
+func main() {
+	accountId := "accountId_example" // string | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+	folderId := "folderId_example" // string | This key is used to identify the folder to be used.
+	messageId := "messageId_example" // string | This key is used to identify the message to be used.
+	expunge := true // bool |  (optional) (default to false)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.EmailAPI.DeleteEmail(context.Background(), accountId, folderId, messageId).Expunge(expunge).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EmailAPI.DeleteEmail``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DeleteEmail`: MessageDeleteResponse
+	fmt.Fprintf(os.Stdout, "Response from `EmailAPI.DeleteEmail`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountId** | **string** | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition. | 
+**folderId** | **string** | This key is used to identify the folder to be used. | 
+**messageId** | **string** | This key is used to identify the message to be used. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteEmailRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+ **expunge** | **bool** |  | [default to false]
+
+### Return type
+
+[**MessageDeleteResponse**](MessageDeleteResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## GetMessageAttachmentContent
@@ -652,6 +735,307 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SendEmail
+
+> NoDataResponse SendEmail(ctx, accountId).SendEmailRequest(sendEmailRequest).Execute()
+
+Send mail/ Save draft or template
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/vigneshwaran-48/zmail-go-sdk"
+)
+
+func main() {
+	accountId := "accountId_example" // string | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+	sendEmailRequest := *openapiclient.NewSendEmailRequest("FromAddress_example", "ToAddress_example") // SendEmailRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.EmailAPI.SendEmail(context.Background(), accountId).SendEmailRequest(sendEmailRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EmailAPI.SendEmail``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SendEmail`: NoDataResponse
+	fmt.Fprintf(os.Stdout, "Response from `EmailAPI.SendEmail`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountId** | **string** | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSendEmailRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **sendEmailRequest** | [**SendEmailRequest**](SendEmailRequest.md) |  | 
+
+### Return type
+
+[**NoDataResponse**](NoDataResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SendReplyEmail
+
+> NoDataResponse SendReplyEmail(ctx, accountId, messageId).SendEmailRequest(sendEmailRequest).Execute()
+
+Send reply to email
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/vigneshwaran-48/zmail-go-sdk"
+)
+
+func main() {
+	accountId := "accountId_example" // string | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+	messageId := "messageId_example" // string | This key is used to identify the message to be used.
+	sendEmailRequest := *openapiclient.NewSendEmailRequest("FromAddress_example", "ToAddress_example") // SendEmailRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.EmailAPI.SendReplyEmail(context.Background(), accountId, messageId).SendEmailRequest(sendEmailRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EmailAPI.SendReplyEmail``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SendReplyEmail`: NoDataResponse
+	fmt.Fprintf(os.Stdout, "Response from `EmailAPI.SendReplyEmail`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountId** | **string** | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition. | 
+**messageId** | **string** | This key is used to identify the message to be used. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSendReplyEmailRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **sendEmailRequest** | [**SendEmailRequest**](SendEmailRequest.md) |  | 
+
+### Return type
+
+[**NoDataResponse**](NoDataResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateMessage
+
+> NoDataResponse UpdateMessage(ctx, accountId).MessageUpdatePayload(messageUpdatePayload).Execute()
+
+Update messages
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/vigneshwaran-48/zmail-go-sdk"
+)
+
+func main() {
+	accountId := "accountId_example" // string | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+	messageUpdatePayload := *openapiclient.NewMessageUpdatePayload(openapiclient.MessageUpdateMode("markAsRead"), []string{"MessageId_example"}) // MessageUpdatePayload | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.EmailAPI.UpdateMessage(context.Background(), accountId).MessageUpdatePayload(messageUpdatePayload).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EmailAPI.UpdateMessage``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateMessage`: NoDataResponse
+	fmt.Fprintf(os.Stdout, "Response from `EmailAPI.UpdateMessage`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountId** | **string** | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateMessageRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **messageUpdatePayload** | [**MessageUpdatePayload**](MessageUpdatePayload.md) |  | 
+
+### Return type
+
+[**NoDataResponse**](NoDataResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UploadAttachments
+
+> AttachmentsResponse UploadAttachments(ctx, accountId).UploadType(uploadType).IsInline(isInline).File(file).Attach(attach).FileName(fileName).IsInline2(isInline2).Execute()
+
+Upload attachment
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/vigneshwaran-48/zmail-go-sdk"
+)
+
+func main() {
+	accountId := "accountId_example" // string | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+	uploadType := "uploadType_example" // string | To upload multiple attachments, this multipart value is mandatory. (optional)
+	isInline := true // bool | Specifies whether you want to attach an inline image or not. (optional) (default to false)
+	file := os.NewFile(1234, "some_file") // *os.File | The binary data of the attachment file. (optional)
+	attach := os.NewFile(1234, "some_file") // *os.File | The binary data of the attachment file. (optional)
+	fileName := "fileName_example" // string | The name of the attachment file. (optional)
+	isInline2 := true // bool | Whether the attachment is inline. (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.EmailAPI.UploadAttachments(context.Background(), accountId).UploadType(uploadType).IsInline(isInline).File(file).Attach(attach).FileName(fileName).IsInline2(isInline2).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EmailAPI.UploadAttachments``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UploadAttachments`: AttachmentsResponse
+	fmt.Fprintf(os.Stdout, "Response from `EmailAPI.UploadAttachments`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountId** | **string** | This key is used to identify the account from which the folders have to be fetched. It is generated during account addition. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUploadAttachmentsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **uploadType** | **string** | To upload multiple attachments, this multipart value is mandatory. | 
+ **isInline** | **bool** | Specifies whether you want to attach an inline image or not. | [default to false]
+ **file** | ***os.File** | The binary data of the attachment file. | 
+ **attach** | ***os.File** | The binary data of the attachment file. | 
+ **fileName** | **string** | The name of the attachment file. | 
+ **isInline2** | **bool** | Whether the attachment is inline. | 
+
+### Return type
+
+[**AttachmentsResponse**](AttachmentsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

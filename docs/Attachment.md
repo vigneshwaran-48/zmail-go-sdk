@@ -4,9 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AttachmentSize** | Pointer to **int32** | Size of the attachment in bytes. | [optional] 
+**StoreName** | Pointer to **string** | store name. | [optional] 
 **AttachmentName** | Pointer to **string** | Name of the attachment file. | [optional] 
-**AttachmentId** | Pointer to **string** | Unique identifier for the attachment. | [optional] 
+**AttachmentPath** | Pointer to **string** | Attachment Path | [optional] 
+**Url** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -27,30 +28,30 @@ NewAttachmentWithDefaults instantiates a new Attachment object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetAttachmentSize
+### GetStoreName
 
-`func (o *Attachment) GetAttachmentSize() int32`
+`func (o *Attachment) GetStoreName() string`
 
-GetAttachmentSize returns the AttachmentSize field if non-nil, zero value otherwise.
+GetStoreName returns the StoreName field if non-nil, zero value otherwise.
 
-### GetAttachmentSizeOk
+### GetStoreNameOk
 
-`func (o *Attachment) GetAttachmentSizeOk() (*int32, bool)`
+`func (o *Attachment) GetStoreNameOk() (*string, bool)`
 
-GetAttachmentSizeOk returns a tuple with the AttachmentSize field if it's non-nil, zero value otherwise
+GetStoreNameOk returns a tuple with the StoreName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAttachmentSize
+### SetStoreName
 
-`func (o *Attachment) SetAttachmentSize(v int32)`
+`func (o *Attachment) SetStoreName(v string)`
 
-SetAttachmentSize sets AttachmentSize field to given value.
+SetStoreName sets StoreName field to given value.
 
-### HasAttachmentSize
+### HasStoreName
 
-`func (o *Attachment) HasAttachmentSize() bool`
+`func (o *Attachment) HasStoreName() bool`
 
-HasAttachmentSize returns a boolean if a field has been set.
+HasStoreName returns a boolean if a field has been set.
 
 ### GetAttachmentName
 
@@ -77,30 +78,55 @@ SetAttachmentName sets AttachmentName field to given value.
 
 HasAttachmentName returns a boolean if a field has been set.
 
-### GetAttachmentId
+### GetAttachmentPath
 
-`func (o *Attachment) GetAttachmentId() string`
+`func (o *Attachment) GetAttachmentPath() string`
 
-GetAttachmentId returns the AttachmentId field if non-nil, zero value otherwise.
+GetAttachmentPath returns the AttachmentPath field if non-nil, zero value otherwise.
 
-### GetAttachmentIdOk
+### GetAttachmentPathOk
 
-`func (o *Attachment) GetAttachmentIdOk() (*string, bool)`
+`func (o *Attachment) GetAttachmentPathOk() (*string, bool)`
 
-GetAttachmentIdOk returns a tuple with the AttachmentId field if it's non-nil, zero value otherwise
+GetAttachmentPathOk returns a tuple with the AttachmentPath field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAttachmentId
+### SetAttachmentPath
 
-`func (o *Attachment) SetAttachmentId(v string)`
+`func (o *Attachment) SetAttachmentPath(v string)`
 
-SetAttachmentId sets AttachmentId field to given value.
+SetAttachmentPath sets AttachmentPath field to given value.
 
-### HasAttachmentId
+### HasAttachmentPath
 
-`func (o *Attachment) HasAttachmentId() bool`
+`func (o *Attachment) HasAttachmentPath() bool`
 
-HasAttachmentId returns a boolean if a field has been set.
+HasAttachmentPath returns a boolean if a field has been set.
+
+### GetUrl
+
+`func (o *Attachment) GetUrl() string`
+
+GetUrl returns the Url field if non-nil, zero value otherwise.
+
+### GetUrlOk
+
+`func (o *Attachment) GetUrlOk() (*string, bool)`
+
+GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUrl
+
+`func (o *Attachment) SetUrl(v string)`
+
+SetUrl sets Url field to given value.
+
+### HasUrl
+
+`func (o *Attachment) HasUrl() bool`
+
+HasUrl returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -737,6 +737,223 @@ paths:
           description: Page not found
         '500':
           description: Internal Error
+          
+  /api/accounts/{accountId}/updatemessage:
+    put:
+      tags:
+        - email
+      summary: Update messages
+      description: Perform different message update actions with the mode field
+      operationId: updateMessage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageUpdatePayload"
+      responses:
+        "200":
+            description: Updated message successfully.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/NoDataResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+          
+  /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}:
+    delete:
+      tags:
+        - email
+      summary: Delete a email
+      description: This API is used to delete an email.
+      operationId: deleteEmail
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: folderId
+          in: path
+          required: true
+          description: This key is used to identify the folder to be used.
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: This key is used to identify the message to be used.
+          schema:
+            type: string
+        - name: expunge
+          in: query
+          schema:
+            type: boolean
+            description: This parameter specifies whether the email should be deleted permanently without moving it to the trash folder.
+            default: false
+      responses:
+        "200":
+          description: Fetched email details successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageDeleteResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+          
+  /api/accounts/{accountId}/messages:
+    post:
+      tags:
+        - email
+      summary: Send mail/ Save draft or template
+      description: This API is used to send an email.
+      operationId: sendEmail
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendEmailRequest"
+      responses:
+        "200":
+          description: Sent email successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+  
+  /api/accounts/{accountId}/messages/attachments:
+    post:
+      tags:
+        - email
+      summary: Upload attachment
+      description: This API allows you to upload attachments before using the file in an email.
+      operationId: uploadAttachments
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: uploadType
+          description: To upload multiple attachments, this multipart value is mandatory. 
+          in: query
+          schema:
+            type: string
+            enum:
+              - multipart
+        - name: isInline
+          description: Specifies whether you want to attach an inline image or not.
+          in: query
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The binary data of the attachment file.
+                attach:
+                  type: string
+                  format: binary
+                  description: The binary data of the attachment file.
+                fileName:
+                  type: string
+                  description: The name of the attachment file.
+                isInline:
+                  type: boolean
+                  description: Whether the attachment is inline.
+      responses:
+        "200":
+          description: Uploaded attachment successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentsResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+        
+  /api/accounts/{accountId}/messages/{messageId}:
+    post:
+      tags:
+        - email
+      summary: Send reply to email
+      description: This API is used to send a reply to a received email.
+      operationId: sendReplyEmail
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: This key is used to identify the account from which the folders have to be fetched. It is generated during account addition.
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: This key is used to identify the message to be used.
+          schema:
+            type: string    
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendEmailRequest"
+      responses:
+        "200":
+          description: Replied email successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoDataResponse'
+        '400':
+          description: Invalid input passed
+        '404':
+          description: Page not found
+        '500':
+          description: Internal Error
+        
 components:
   schemas:
     NoDataResponse:
@@ -844,10 +1061,31 @@ components:
             attachments:
               type: array
               items:
-                $ref: '#/components/schemas/Attachment'
+                $ref: '#/components/schemas/EmailAttachment'
             messageId:
               type: string
-
+              
+    MessageDeleteResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          type: object
+          properties:
+            cId:
+              type: string
+              
+    AttachmentsResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+              
     Status:
       type: object
       properties:
@@ -1161,7 +1399,7 @@ components:
           type: integer
           format: int64
         
-    Attachment:
+    EmailAttachment:
       type: object
       properties:
         attachmentSize:
@@ -1173,6 +1411,178 @@ components:
         attachmentId:
           type: string
           description: Unique identifier for the attachment.
+          
+    MessageUpdateMode:
+      type: string
+      enum:
+        - markAsRead
+        - markAsUnread
+        - moveMessage
+        - setFlag
+        - applyLabel
+        - removeLabel
+        - removeAllLabels
+        - archiveMails
+        - unArchiveMails
+        - moveToSpam
+        - markNotSpam
+        
+    MessageFlag:
+      type: string
+      enum:
+        - info
+        - important
+        - followup
+        - flag_not_set
+          
+    MessageUpdatePayload:
+      type: object
+      required: 
+        - mode
+        - messageId
+      properties:
+        mode:
+          $ref: '#/components/schemas/MessageUpdateMode'
+        messageId:
+          type: array
+          items:
+            type: string
+        threadId:
+          type: array
+          items:
+            type: string
+        isFolderSpecific:
+          type: boolean
+          default: false
+        folderId:
+          type: string
+        labelId:
+          type: array
+          items:
+            type: string
+        isArchive:
+          type: boolean
+          default: false
+        flagid:
+          $ref: '#/components/schemas/MessageFlag'
+        destfolderId:
+          type: string
+          
+    SendEmailMode:
+      type: string
+      enum:
+        - draft
+        - template
+          
+    SendEmailRequest:
+      type: object
+      required:
+        - fromAddress
+        - toAddress
+      properties:
+        fromAddress:
+          type: string
+          description: Provide the sender's email address (associated to the authenticated account). Allowed values:- Valid email address corresponding to the authenticated account for the From field.
+        toAddress:
+          type: string
+          description: Provide the recipient's email address. Allowed values:- Valid recipient email address for the To field.
+        ccAddress:
+          type: string
+          description: Provide the recipient's email address for the Cc field. Allowed values:- Valid recipient email address for the Cc field.
+        bccAddress:
+          type: string
+          description: Provide the recipient's email address for the Bcc field. Allowed values:- Valid recipient email address for the Bcc field.
+        subject:
+          type: string
+          description: Provide the subject of the email.
+        content:
+          type: string
+          description: Provide the content of the email.
+        mailFormat:
+          type: string
+          enum:
+            - html
+            - plaintext
+          description: Specify the format in which the mail needs to be sent. The value can be html or plaintext. The default value is html.
+          default: html
+        askReceipt:
+          type: string
+          enum:
+            - yes
+            - no
+          description: Specifies whether Read receipt from the recipient is requested or not. Allowed values:- yes - Requesting a read receipt. no - Not requesting a read receipt
+        encoding:
+          type: string
+          enum:
+            - Big5
+            - EUC-JP
+            - EUC-KR
+            - GB2312
+            - ISO-2022-JP
+            - ISO-8859-1
+            - KOI8-R
+            - Shift_JIS
+            - US-ASCII
+            - UTF-8
+            - WINDOWS-1251
+            - X-WINDOWS-ISO2022JP
+          description: Specifies the encoding that is to be used in the email content. Allowed values:- Big5, EUC-JP, EUC-KR, GB2312, ISO-2022-JP, ISO-8859-1, KOI8-R, Shift_JIS, US-ASCII, UTF-8, WINDOWS-1251, X-WINDOWS-ISO2022JP. The default value is UTF-8.
+          default: UTF-8
+        isSchedule:
+          type: boolean
+          description: Depending on whether the mail has to be scheduled or not, the value can be true - if the email should be scheduled. false - if the email should be sent immediately.
+        scheduleType:
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+          description: Specifies the type of scheduling. Allowed values:- 1 - Schedules email to be sent after one hour from the time of the request. 2 - Schedules email to be sent after two hours from the time of the request. 3 - Schedules email to be sent after four hours from the time of the request. 4 - Schedules email to be sent by the morning of the next day from the time of the request. 5 - Schedules email to be sent by the afternoon of the next day from the time of the request. 6 - Schedules email to be sent on the custom date and time of your choice.
+        timeZone:
+          type: string
+          description: Specify the timezone to schedule your email. This parameter is mandatory if scheduleType is set to value 6. For example:- GMT 5.30 (India Standard Time - Asia/Calcutta).
+        scheduleTime:
+          type: string
+          description: Specify the date and time you want to schedule your email. This parameter is mandatory if scheduleType is set to value 6. Format:- MM/DD/YYYY HH:MM:SS. For example:- 09/15/2023 14:30:28
+        attachments:
+          type: array
+          items:
+            type: object
+            properties:
+              attachmentName:
+                type: string
+                description: Specifies the name of the attachment. This parameter can be fetched from Upload Attachments API.
+              attachmentPath:
+                type: string
+                description: Specifies the path in which the attachment is stored. This parameter can be fetched from Upload Attachments API.
+              storeName:
+                type: string
+                description: Specifies the name of the store where the attachment is saved. This parameter can be fetched from Upload Attachments API.
+        mode:
+          $ref: '#/components/schemas/SendEmailMode'
+        action:
+          type: string
+          enum:
+            - reply
+          
+    Attachment:
+      type: object
+      properties:
+        storeName:
+          type: string
+          description: store name.
+        attachmentName:
+          type: string
+          description: Name of the attachment file.
+        attachmentPath:
+          type: string
+          description: Attachment Path
+        url:
+          type: string
+          
   securitySchemes:
     zohomail_auth:
       type: oauth2
@@ -1185,4 +1595,8 @@ components:
             ZohoMail.accounts.READ: READ access to accounts.
             ZohoMail.folders.ALL: Full access to folders.
             ZohoMail.folders.CREATE: Create a folder.
+            ZohoMail.messages.CREATE: Send email
+            ZohoMail.messages.ALL: Full access to messages
+            ZohoMail.messages.READ: Read access to messages
+            
   

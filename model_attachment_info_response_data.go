@@ -20,7 +20,7 @@ var _ MappedNullable = &AttachmentInfoResponseData{}
 
 // AttachmentInfoResponseData struct for AttachmentInfoResponseData
 type AttachmentInfoResponseData struct {
-	Attachments []Attachment `json:"attachments,omitempty"`
+	Attachments []EmailAttachment `json:"attachments,omitempty"`
 	MessageId *string `json:"messageId,omitempty"`
 }
 
@@ -42,9 +42,9 @@ func NewAttachmentInfoResponseDataWithDefaults() *AttachmentInfoResponseData {
 }
 
 // GetAttachments returns the Attachments field value if set, zero value otherwise.
-func (o *AttachmentInfoResponseData) GetAttachments() []Attachment {
+func (o *AttachmentInfoResponseData) GetAttachments() []EmailAttachment {
 	if o == nil || IsNil(o.Attachments) {
-		var ret []Attachment
+		var ret []EmailAttachment
 		return ret
 	}
 	return o.Attachments
@@ -52,7 +52,7 @@ func (o *AttachmentInfoResponseData) GetAttachments() []Attachment {
 
 // GetAttachmentsOk returns a tuple with the Attachments field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AttachmentInfoResponseData) GetAttachmentsOk() ([]Attachment, bool) {
+func (o *AttachmentInfoResponseData) GetAttachmentsOk() ([]EmailAttachment, bool) {
 	if o == nil || IsNil(o.Attachments) {
 		return nil, false
 	}
@@ -68,8 +68,8 @@ func (o *AttachmentInfoResponseData) HasAttachments() bool {
 	return false
 }
 
-// SetAttachments gets a reference to the given []Attachment and assigns it to the Attachments field.
-func (o *AttachmentInfoResponseData) SetAttachments(v []Attachment) {
+// SetAttachments gets a reference to the given []EmailAttachment and assigns it to the Attachments field.
+func (o *AttachmentInfoResponseData) SetAttachments(v []EmailAttachment) {
 	o.Attachments = v
 }
 
