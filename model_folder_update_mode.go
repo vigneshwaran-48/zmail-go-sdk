@@ -21,12 +21,12 @@ type FolderUpdateMode string
 
 // List of FolderUpdateMode
 const (
-	MOVE FolderUpdateMode = "move"
-	RENAME FolderUpdateMode = "rename"
-	SET_VIEWABLE_IN_IMAP FolderUpdateMode = "setViewableInIMAP"
-	REMOVE_VIEWABLE_IN_IMAP FolderUpdateMode = "removeViewableInIMAP"
-	MARK_AS_READ FolderUpdateMode = "markAsRead"
-	EMPTY_FOLDER FolderUpdateMode = "emptyFolder"
+	FOLDERUPDATEMODE_MOVE FolderUpdateMode = "move"
+	FOLDERUPDATEMODE_RENAME FolderUpdateMode = "rename"
+	FOLDERUPDATEMODE_SET_VIEWABLE_IN_IMAP FolderUpdateMode = "setViewableInIMAP"
+	FOLDERUPDATEMODE_REMOVE_VIEWABLE_IN_IMAP FolderUpdateMode = "removeViewableInIMAP"
+	FOLDERUPDATEMODE_MARK_AS_READ FolderUpdateMode = "markAsRead"
+	FOLDERUPDATEMODE_EMPTY_FOLDER FolderUpdateMode = "emptyFolder"
 )
 
 // All allowed values of FolderUpdateMode enum

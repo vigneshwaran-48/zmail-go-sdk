@@ -21,8 +21,8 @@ type SendEmailMode string
 
 // List of SendEmailMode
 const (
-	DRAFT SendEmailMode = "draft"
-	TEMPLATE SendEmailMode = "template"
+	SENDEMAILMODE_DRAFT SendEmailMode = "draft"
+	SENDEMAILMODE_TEMPLATE SendEmailMode = "template"
 )
 
 // All allowed values of SendEmailMode enum

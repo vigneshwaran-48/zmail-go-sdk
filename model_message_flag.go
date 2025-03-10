@@ -21,10 +21,10 @@ type MessageFlag string
 
 // List of MessageFlag
 const (
-	INFO MessageFlag = "info"
-	IMPORTANT MessageFlag = "important"
-	FOLLOWUP MessageFlag = "followup"
-	FLAG_NOT_SET MessageFlag = "flag_not_set"
+	MESSAGEFLAG_INFO MessageFlag = "info"
+	MESSAGEFLAG_IMPORTANT MessageFlag = "important"
+	MESSAGEFLAG_FOLLOWUP MessageFlag = "followup"
+	MESSAGEFLAG_FLAG_NOT_SET MessageFlag = "flag_not_set"
 )
 
 // All allowed values of MessageFlag enum

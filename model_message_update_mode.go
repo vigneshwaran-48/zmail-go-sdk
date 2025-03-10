@@ -21,17 +21,17 @@ type MessageUpdateMode string
 
 // List of MessageUpdateMode
 const (
-	MARK_AS_READ MessageUpdateMode = "markAsRead"
-	MARK_AS_UNREAD MessageUpdateMode = "markAsUnread"
-	MOVE_MESSAGE MessageUpdateMode = "moveMessage"
-	SET_FLAG MessageUpdateMode = "setFlag"
-	APPLY_LABEL MessageUpdateMode = "applyLabel"
-	REMOVE_LABEL MessageUpdateMode = "removeLabel"
-	REMOVE_ALL_LABELS MessageUpdateMode = "removeAllLabels"
-	ARCHIVE_MAILS MessageUpdateMode = "archiveMails"
-	UN_ARCHIVE_MAILS MessageUpdateMode = "unArchiveMails"
-	MOVE_TO_SPAM MessageUpdateMode = "moveToSpam"
-	MARK_NOT_SPAM MessageUpdateMode = "markNotSpam"
+	MESSAGEUPDATEMODE_MARK_AS_READ MessageUpdateMode = "markAsRead"
+	MESSAGEUPDATEMODE_MARK_AS_UNREAD MessageUpdateMode = "markAsUnread"
+	MESSAGEUPDATEMODE_MOVE_MESSAGE MessageUpdateMode = "moveMessage"
+	MESSAGEUPDATEMODE_SET_FLAG MessageUpdateMode = "setFlag"
+	MESSAGEUPDATEMODE_APPLY_LABEL MessageUpdateMode = "applyLabel"
+	MESSAGEUPDATEMODE_REMOVE_LABEL MessageUpdateMode = "removeLabel"
+	MESSAGEUPDATEMODE_REMOVE_ALL_LABELS MessageUpdateMode = "removeAllLabels"
+	MESSAGEUPDATEMODE_ARCHIVE_MAILS MessageUpdateMode = "archiveMails"
+	MESSAGEUPDATEMODE_UN_ARCHIVE_MAILS MessageUpdateMode = "unArchiveMails"
+	MESSAGEUPDATEMODE_MOVE_TO_SPAM MessageUpdateMode = "moveToSpam"
+	MESSAGEUPDATEMODE_MARK_NOT_SPAM MessageUpdateMode = "markNotSpam"
 )
 
 // All allowed values of MessageUpdateMode enum
